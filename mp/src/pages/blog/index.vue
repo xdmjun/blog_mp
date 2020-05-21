@@ -1,37 +1,33 @@
 <template>
-  <div class="main">{{content}}</div>
+  <div class="main">
+    <wemark :md="content" link highlight type="wemark"></wemark>
+  </div>
 </template>
 
 <script>
-
 export default {
   data() {
     return {
       name: '',
-      content: ''
+      content: '',
     }
   },
-  methods: {
-
-  },
+  methods: {},
   onLoad() {
     this.name = this.$root.$mp.query.name
     wx.cloud
       .callFunction({
         name: 'blog',
-        data: { name: this.name }
+        data: { name: this.name },
       })
       .then(res => {
         let rs = JSON.parse(res.result)
-        this.content = rs.data
+        mpvue.setNavigationBarTitle({ title: rs.data.title })
+        this.content = rs.data.content.replace(/[\\]/g, '')
       })
   },
-  onShow() {
-
-  },
-  onReachBottom() {
-
-  },
+  onShow() {},
+  onReachBottom() {},
 }
 </script>
 
@@ -40,6 +36,6 @@ page {
   background: #fff;
 }
 .main {
-  padding: 0 10px;
+  padding: 0 15px;
 }
 </style>

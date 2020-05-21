@@ -4,14 +4,18 @@
       <div class="userinfo" data-clipboard="userInfo.url" bindtap="clipboard">
         <image class="userinfo-avatar" :src="userInfo.avatarUrl" background-size="cover" />
         <text class="userinfo-nickname">{{ userInfo.nickname }}</text>
-        <div class="userinfo-desc">{{ userInfo.desc }}</div>
+        <div class="desc">{{ userInfo.desc }}</div>
+      </div>
+      <div class="desc">https://github.com/xuedingmiaojun/blog_mp</div>
+      <div class="wx-info">
+        <div class="desc">⬇微信公众号⬇</div>
+        <image class="wxgh" :src="wxghUrl" background-size="cover" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
   data() {
     return {
@@ -20,17 +24,19 @@ export default {
         nickname: '薛定喵君',
         desc: '会说日语的前端开发者',
         url: 'https://github.com/xuedingmiaojun',
-      }
+      },
+      wxghUrl: '/static/images/qrcode_for_xdmj.jpg',
     }
   },
-  methods: {
-
-  },
-  onShow() {
-
-  },
-  onReachBottom() {
-
+  methods: {},
+  onShow() {},
+  onReachBottom() {},
+  onShareAppMessage() {
+    return {
+      title: '薛定喵君的博客',
+      path: '/pages/index/index',
+      imageUrl: 'http://cdn.skyvow.cn/logo.png',
+    }
   },
 }
 </script>
@@ -55,19 +61,24 @@ page {
       flex-direction: column;
       align-items: center;
       .userinfo-avatar {
-        width: 128rpx;
-        height: 128rpx;
+        width: 138rpx;
+        height: 138rpx;
         margin: 20rpx;
         border-radius: 50%;
       }
-
       .userinfo-nickname {
         color: rgba(0, 0, 0, 0.85);
       }
-
-      .userinfo-desc {
-        color: rgba(0, 0, 0, 0.45);
-      }
+    }
+    .desc {
+      color: rgba(0, 0, 0, 0.45);
+    }
+  }
+  .wx-info {
+    margin-top: 10px;
+    .wxgh {
+      width: 168px;
+      height: 168px;
     }
   }
 }
