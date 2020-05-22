@@ -119,6 +119,30 @@ async function getContent(blog_name) {
     data.indexOf('title:') + 7,
     data.indexOf('date:') - 1
   )
-  blogCont.content = data.substring(data.indexOf('<!-- more -->') + 14)
+  let imgReg = /<img.*?(?:>|\/>)/gi //匹配img标签
+  let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i // 匹配图片中的src
+  let altReg = /alt=[\'\"]?([^\'\"]*)[\'\"]?/i // 匹配图片的alt
+
+  let cnt = data.substring(data.indexOf('<!-- more -->') + 14)
+  let arr = cnt.match(imgReg) //筛选出所有的img
+
+  let imgArr = []
+  for (let i = 0; i < arr.length; i++) {
+    let src = arr[i].match(srcReg)
+    let alt = arr[i].match(altReg)
+    let imgMdStr =
+      '![' +
+      (alt != null ? alt : '图片') +
+      '](' +
+      'http://xuedingmiao.com' +
+      src[1] +
+      ')'
+    let rp = arr[i].toString()
+    cnt = cnt.replace(
+      /<img src="\/(.+?)\"?([^\"\'\s]*)([\"\']?)([^>]*>)/g,
+      imgMdStr
+    )
+  }
+  blogCont.content = cnt
   return blogCont
 }
