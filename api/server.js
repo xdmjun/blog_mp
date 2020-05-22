@@ -97,7 +97,13 @@ async function getTitle(blog_routes) {
       data.indexOf('date:') + 6,
       data.indexOf('type:') - 1
     )
-    blog_array.push({ title: title, date: date, file_name: blog_file_name })
+    let recommend = data.indexOf('recommend:') != -1 ? 1 : 0
+    blog_array.push({
+      title: title,
+      date: date,
+      recommend: recommend,
+      file_name: blog_file_name,
+    })
   })
   blog_array.sort(function (a, b) {
     return b.date > a.date ? 1 : -1
