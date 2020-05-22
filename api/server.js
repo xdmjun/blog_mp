@@ -137,11 +137,7 @@ async function getContent(blog_name) {
       'http://xuedingmiao.com' +
       src[1] +
       ')'
-    let rp = arr[i].toString()
-    cnt = cnt.replace(
-      /<img src="\/(.+?)\"?([^\"\'\s]*)([\"\']?)([^>]*>)/g,
-      imgMdStr
-    )
+    cnt = cnt.replace(arr[i], 'img' + i).replace('img' + i, imgMdStr)
   }
   blogCont.content = cnt
   return blogCont
