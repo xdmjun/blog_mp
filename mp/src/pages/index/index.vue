@@ -32,15 +32,16 @@
 </template>
 
 <script>
-// import { userOrg, getMyInvite, getInvite } from '@/api/api'
 export default {
   data() {
     return {
       blogs: [],
       bannerList: [
+        'http://xuedingmiao.com/images/gitcmd.png',
         'http://xuedingmiao.com/images/bm1.png',
         'http://xuedingmiao.com/images/dau-value.png',
-        'http://xuedingmiao.com/images/gitcmd.png',
+        'http://xuedingmiao.com/images/product-dev-rule.png',
+        'http://xuedingmiao.com/images/company-change.png'
       ],
     }
   },
@@ -86,6 +87,7 @@ page {
     padding: 0 5px;
     .title {
       font-size: 16px;
+      font-weight: bold;
       border-bottom: 1px solid #efefef;
       padding: 5px 15px;
     }
