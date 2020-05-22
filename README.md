@@ -13,6 +13,7 @@
 - mpvue框架
 - 小程序云开发
 - 小程序markdown内容渲染
+- iview、vantUI库
 - koa框架
 - 部署采用的pm2管理
 - vuepress(博客内容来源于vuepress构建)
@@ -20,5 +21,5 @@
 ### 扫码体验
 <img src="/xcx_qrcode.jpg" height="330" width="330">
 
-### 版本记录
-20200521 初版更新
+### 更新日志
+- 2020/05/21：初版更新，略丑
