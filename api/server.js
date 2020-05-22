@@ -93,11 +93,14 @@ async function getTitle(blog_routes) {
       data.indexOf('title:') + 7,
       data.indexOf('date:') - 1
     )
-    // let title = data.substring(
-    //   data.indexOf('<title>') + 7,
-    //   data.indexOf('</title>') - 7
-    // );
-    blog_array.push({ title: title, file_name: blog_file_name })
+    let date = data.substring(
+      data.indexOf('date:') + 6,
+      data.indexOf('type:') - 1
+    )
+    blog_array.push({ title: title, date: date, file_name: blog_file_name })
+  })
+  blog_array.sort(function (a, b) {
+    return b.date > a.date ? 1 : -1
   })
   return blog_array
 }
