@@ -58,7 +58,12 @@ router.get('/blogs/init', async (ctx, next) => {
 
 // 获取博客列表
 router.get('/blogs', async (ctx, next) => {
-  ctx.data = await getTitleFromJson()
+  let blog_routes = await fg(blog_md_path, {
+    onlyFiles: true,
+    cwd: __dirname,
+    deep: 1,
+  })
+  ctx.data = await getTitle(blog_routes)
   await next()
 })
 
