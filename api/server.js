@@ -44,14 +44,21 @@ router.get('/', async (ctx, next) => {
   await next()
 })
 
-// 获取博客列表
-router.get('/blogs', async (ctx, next) => {
+// 生成博客列表json
+router.get('/blogs/init', async (ctx, next) => {
   let blog_routes = await fg(blog_md_path, {
     onlyFiles: true,
     cwd: __dirname,
     deep: 1,
   })
-  ctx.data = await getTitle(blog_routes)
+
+  ctx.data = await initTitle(blog_routes)
+  await next()
+})
+
+// 获取博客列表
+router.get('/blogs', async (ctx, next) => {
+  ctx.data = await getTitleFromJson()
   await next()
 })
 
@@ -82,6 +89,40 @@ app.use(router.routes())
 app.use(router.allowedMethods())
 
 app.listen(3000)
+
+// 生成博客标题json数据
+async function initTitle(blog_routes) {
+  let blog_array = []
+  blog_routes.forEach((row) => {
+    let blog_file_name = row.substr(row.lastIndexOf('/') + 1)
+    var data = fs.readFileSync(row, 'utf-8')
+    let title = data.substring(
+      data.indexOf('title:') + 7,
+      data.indexOf('date:') - 1
+    )
+    let date = data.substring(
+      data.indexOf('date:') + 6,
+      data.indexOf('type:') - 1
+    )
+    let recommend = data.indexOf('recommend:') != -1 ? 1 : 0
+    blog_array.push({
+      title: title,
+      date: date,
+      recommend: recommend,
+      file_name: blog_file_name,
+    })
+  })
+  blog_array.sort(function (a, b) {
+    return b.date > a.date ? 1 : -1
+  })
+  fs.writeFileSync('blogs.json', JSON.stringify(blog_array))
+}
+
+// 从json文件获取博客标题
+async function getTitleFromJson() {
+  let blogs = fs.readFileSync('blogs.json', 'utf-8')
+  return blogs
+}
 
 // 获取博客标题
 async function getTitle(blog_routes) {
