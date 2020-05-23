@@ -58,12 +58,22 @@ router.get('/blogs/init', async (ctx, next) => {
 
 // 获取博客列表
 router.get('/blogs', async (ctx, next) => {
-  let blog_routes = await fg(blog_md_path, {
-    onlyFiles: true,
-    cwd: __dirname,
-    deep: 1,
-  })
-  ctx.data = await getTitle(blog_routes)
+  let allblogs = await getTitleFromJson()
+  let pagesize = 30
+  let page = ctx.request.query.page || 1
+  let total = allblogs.length
+  let maxpage = 1
+  if (total % pagesize === 0) {
+    maxpage = parseInt(total / pagesize)
+  } else {
+    maxpage = parseInt(total / pagesize) + 1
+  }
+  if (page > maxpage) {
+    page = maxpage
+  }
+  let first = (page - 1) * pagesize
+  let blogList = JSON.parse(allblogs).slice(first, first + pagesize)
+  ctx.data = blogList
   await next()
 })
 
