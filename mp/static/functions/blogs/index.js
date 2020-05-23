@@ -3,7 +3,8 @@ const got = require('got')
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  let res = await got('http://tiaocaoer.com:11171/blogs', {
+  let page = event.page || 1
+  let res = await got('http://tiaocaoer.com:11171/blogs?page=' + page, {
     method: 'get',
     headers: {
       'Content-Type': 'application/json',

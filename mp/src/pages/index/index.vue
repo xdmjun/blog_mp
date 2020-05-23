@@ -36,12 +36,13 @@ export default {
   data() {
     return {
       blogs: [],
+      page: 1,
       bannerList: [
         'http://xuedingmiao.com/images/gitcmd.png',
         'http://xuedingmiao.com/images/bm1.png',
         'http://xuedingmiao.com/images/dau-value.png',
         'http://xuedingmiao.com/images/product-dev-rule.png',
-        'http://xuedingmiao.com/images/company-change.png'
+        'http://xuedingmiao.com/images/company-change.png',
       ],
     }
   },
@@ -51,18 +52,26 @@ export default {
         url: '/pages/blog/main?name=' + name,
       })
     },
+    getList() {
+      wx.cloud
+        .callFunction({
+          name: 'blogs',
+          data: { page: this.page },
+        })
+        .then(res => {
+          let rs = JSON.parse(res.result)
+          this.blogs = rs.data
+        })
+    },
   },
   onShareAppMessage() {},
   onLoad() {
-    wx.cloud
-      .callFunction({
-        name: 'blogs',
-        data: {},
-      })
-      .then(res => {
-        let rs = JSON.parse(res.result)
-        this.blogs = rs.data
-      })
+    this.getList()
+  },
+  onReachBottom() {
+    // 下拉加载
+    this.page++
+    this.getList()
   },
   mounted() {
     wx.showShareMenu()
