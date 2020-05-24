@@ -1,6 +1,10 @@
 <template>
   <div class="main">
-    <wemark :md="content" link highlight type="wemark"></wemark>
+    <div class="title">{{title}}</div>
+    <div class="content">
+      <wemark :md="content" link highlight type="wemark"></wemark>
+    </div>
+    <i-notice-bar icon="systemprompt" loop>更多内容请移步web端博客(xuedingmiao.com)</i-notice-bar>
   </div>
 </template>
 
@@ -8,6 +12,7 @@
 export default {
   data() {
     return {
+      title: '',
       name: '',
       content: '',
     }
@@ -22,12 +27,26 @@ export default {
       })
       .then(res => {
         let rs = JSON.parse(res.result)
-        mpvue.setNavigationBarTitle({ title: rs.data.title })
+        this.title = rs.data.title
+        mpvue.setNavigationBarTitle({ title: this.title })
         this.content = rs.data.content.replace(/[\\]/g, '')
       })
   },
   onShow() {},
   onReachBottom() {},
+  onShareAppMessage() {
+    return {
+      title: this.title,
+      path: '/pages/blog/main?name=' + this.name,
+      imageUrl: '',
+    }
+  },
+  mounted() {
+    wx.showShareMenu()
+  },
+  onUnload() {
+    Object.assign(this.$data, this.$options.data())
+  },
 }
 </script>
 
@@ -36,6 +55,15 @@ page {
   background: #fff;
 }
 .main {
-  padding: 0 15px;
+  .title {
+    font-size: 16px;
+    color: #4a4a4a;
+    border-bottom: 1px solid #efefef;
+    padding: 3px;
+    text-align: center;
+  }
+  .content {
+    padding: 0 15px;
+  }
 }
 </style>

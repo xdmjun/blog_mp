@@ -60,7 +60,7 @@ export default {
         })
         .then(res => {
           let rs = JSON.parse(res.result)
-          this.blogs = rs.data
+          this.blogs = this.blogs.concat(rs.data)
         })
     },
   },

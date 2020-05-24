@@ -12,7 +12,6 @@
     "navigationBarTextStyle": "black"
   },
   "usingComponents": {
-    "i-input": "../static/iview/input/index",
     "i-tabs": "../static/iview/tabs/index",
     "i-tab": "../static/iview/tab/index",
     "i-row": "../static/iview/row/index",
@@ -23,16 +22,13 @@
     "i-icon": "../static/iview/icon/index",
     "i-panel": "../static/iview/panel/index",
     "i-modal": "../static/iview/modal/index",
-    "i-checkbox-group": "../static/iview/checkbox-group/index",
-    "i-checkbox": "../static/iview/checkbox/index",
-    "i-radio-group": "../static/iview/radio-group/index",
-    "i-radio": "../static/iview/radio/index",
     "i-action-sheet": "../static/iview/action-sheet/index",
     "i-card": "../static/iview/card/index",
     "i-message": "../static/iview/message/index",
     "i-switch": "../static/iview/switch/index",
     "i-toast": "../static/iview/toast/index",
     "i-tag": "../static/iview/tag/index",
+    "i-notice-bar": "../static/iview/notice-bar/index",
     "van-popup": "../static/vant/popup/index",
     "van-area": "../static/vant/area/index"
   },

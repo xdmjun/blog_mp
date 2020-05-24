@@ -25,7 +25,7 @@ export default {
       wx.cloud
         .callFunction({
           name: 'tags',
-          data: {}
+          data: {},
         })
         .then(res => {
           let rs = JSON.parse(res.result)
@@ -35,29 +35,22 @@ export default {
           this.tags = rs.data
         })
     },
-    getList() {
-
-    },
+    getList() {},
     color() {
       // 标签button颜色
-      let colors = [
-        'blue', 'green', 'red', 'yellow', 'default'
-      ]
+      let colors = ['blue', 'green', 'red', 'yellow', 'default']
       return colors[parseInt(Math.random() * colors.length)]
-    }
+    },
   },
-  onShow() {
-
-  },
+  onShow() {},
   onLoad() {
     this.init()
   },
-  onReachBottom() {
-
+  mounted() {
+    wx.showShareMenu()
   },
-  onUnload() {
-
-  },
+  onReachBottom() {},
+  onUnload() {},
 }
 </script>
 

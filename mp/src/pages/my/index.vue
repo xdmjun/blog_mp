@@ -31,12 +31,9 @@ export default {
   methods: {},
   onShow() {},
   onReachBottom() {},
-  onShareAppMessage() {
-    return {
-      title: '薛定喵君的博客',
-      path: '/pages/index/index',
-      imageUrl: 'http://cdn.skyvow.cn/logo.png',
-    }
+  onShareAppMessage() {},
+  mounted() {
+    wx.showShareMenu()
   },
 }
 </script>
