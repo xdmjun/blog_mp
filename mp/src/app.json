@@ -29,6 +29,7 @@
     "i-toast": "../static/iview/toast/index",
     "i-tag": "../static/iview/tag/index",
     "i-notice-bar": "../static/iview/notice-bar/index",
+    "i-load-more": "../static/iview/load-more/index",
     "van-popup": "../static/vant/popup/index",
     "van-area": "../static/vant/area/index"
   },

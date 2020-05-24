@@ -28,6 +28,7 @@
         </i-cell>
       </i-cell-group>
     </div>
+    <i-load-more :tip="haveMore?'':'没了没了，别划了'" :loading="loading" />
   </div>
 </template>
 
@@ -37,6 +38,8 @@ export default {
     return {
       blogs: [],
       page: 1,
+      haveMore: true,
+      loading: false,
       bannerList: [
         'http://xuedingmiao.com/images/gitcmd.png',
         'http://xuedingmiao.com/images/bm1.png',
@@ -53,14 +56,20 @@ export default {
       })
     },
     getList() {
+      this.loading = true
       wx.cloud
         .callFunction({
           name: 'blogs',
           data: { page: this.page },
         })
         .then(res => {
+          this.loading = false
           let rs = JSON.parse(res.result)
-          this.blogs = this.blogs.concat(rs.data)
+          if (rs.data.length === 0) {
+            this.haveMore = false
+          } else {
+            this.blogs = this.blogs.concat(...rs.data)
+          }
         })
     },
   },
