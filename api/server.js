@@ -4,10 +4,18 @@ const Router = require('koa-router')
 const router = new Router()
 const fg = require('fast-glob')
 const fs = require('fs')
-let config = require('./config.js'),
-  blog_html_path = config.base_path + 'blog/*.html',
+const request = require('request')
+let config = require('./config.js')
+const blog_html_path = config.base_path + 'blog/*.html',
   blog_md_path = config.base_path + 'blog/*.md',
-  tag_path = config.base_html_path + 'tag/*.html'
+  tag_path = config.base_html_path + 'tag/*.html',
+  tokenUrl = config.tokenUrl,
+  batchgetMaterialUrl = config.batchgetMaterialUrl,
+  appid = config.appid,
+  appsecret = config.appsecret,
+  type = config.type,
+  offset = config.offset,
+  count = config.count
 
 // user agent
 const { userAgent } = require('koa-useragent')
@@ -41,6 +49,86 @@ app.use(async (ctx, next) => {
 
 router.get('/', async (ctx, next) => {
   ctx.data = 'blog api'
+  await next()
+})
+
+// 获取公众号全局token
+router.get('/getToken', async (ctx, next) => {
+  let tokenInfo = fs.existsSync('token_info.json')
+    ? JSON.parse(fs.readFileSync('token_info.json', 'utf-8'))
+    : null
+  let expires_time = tokenInfo ? tokenInfo.expires_time : ''
+  let cache_access_token = tokenInfo ? tokenInfo.access_token : ''
+  if (
+    Date.now() > expires_time + 3600 ||
+    tokenInfo == null ||
+    cache_access_token == ''
+  ) {
+    let tokenInfoNew = await new Promise(function (resolve, reject) {
+      request.get(
+        `${tokenUrl}?grant_type=client_credential&appid=${appid}&secret=${appsecret}`,
+        function (error, response, body) {
+          if (!error && response.statusCode == 200) {
+            resolve(body)
+          }
+          reject(error)
+        }
+      )
+    })
+    tokenInfoNew = JSON.parse(tokenInfoNew)
+    cache_access_token = tokenInfoNew.access_token
+    expires_time = Date.now()
+    fs.writeFileSync(
+      'token_info.json',
+      JSON.stringify({
+        access_token: cache_access_token,
+        expires_time: expires_time,
+      })
+    )
+    ctx.data = { token: cache_access_token }
+  } else {
+    ctx.data = tokenInfo
+  }
+  await next()
+})
+
+// 获取公众号文章素材列表
+router.get('/wxarticles', async (ctx, next) => {
+  let page = ctx.request.query.page || 1,
+    access_token = ctx.request.header.token || ''
+  let data = {
+    type: type,
+    offset: offset,
+    count: count,
+  }
+  // 获取素材列表
+  const res = await new Promise(function (resolve, reject) {
+    request.post(
+      {
+        url: `${batchgetMaterialUrl}?access_token=${access_token}`,
+        form: JSON.stringify(data),
+      },
+      function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          resolve(body)
+        }
+        reject(error)
+      }
+    )
+  })
+  let blogs = [],
+    medias = JSON.parse(res)
+  if (medias.item) {
+    medias.item.map((blog) => {
+      blogs.push({
+        title: blog.content.news_item[0].title,
+        digest: blog.content.news_item[0].digest,
+        thumb_media_id: blog.content.news_item[0].thumb_media_id,
+        url: blog.content.news_item[0].url,
+      })
+    })
+  }
+  ctx.data = blogs
   await next()
 })
 
