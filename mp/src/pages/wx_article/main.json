@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "公众号文章",
+  "navigationBarBackgroundColor": "#fff",
+  "usingComponents": {
+    "Parser":"/static/Parser/index"
+  }
+}

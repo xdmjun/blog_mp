@@ -1,9 +1,12 @@
 {
   "pages": [
     "pages/index/main",
+    "pages/discover/main",
     "pages/tags/main",
     "pages/my/main",
-    "pages/blog/main"
+    "pages/blog/main",
+    "pages/wx_article/main",
+    "pages/article_detail/main"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -20,7 +23,6 @@
     "i-cell": "../static/iview/cell/index",
     "i-button": "../static/iview/button/index",
     "i-icon": "../static/iview/icon/index",
-    "i-panel": "../static/iview/panel/index",
     "i-modal": "../static/iview/modal/index",
     "i-action-sheet": "../static/iview/action-sheet/index",
     "i-card": "../static/iview/card/index",
@@ -47,10 +49,10 @@
         "selectedIconPath": "static/tabs/home-active.png"
       },
       {
-        "text": "标签云",
-        "pagePath": "pages/tags/main",
-        "iconPath": "static/tabs/tag.png",
-        "selectedIconPath": "static/tabs/tag-active.png"
+        "text": "发现",
+        "pagePath": "pages/discover/main",
+        "iconPath": "static/tabs/discover.png",
+        "selectedIconPath": "static/tabs/discover-active.png"
       },
       {
         "text": "关于",
