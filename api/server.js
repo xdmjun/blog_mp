@@ -169,6 +169,33 @@ router.get('/blogs', async (ctx, next) => {
   await next()
 })
 
+// 获取推荐博客列表
+router.get('/recblogs', async (ctx, next) => {
+  let allblogs = await getTitleFromJson(),
+    recblogs = []
+  JSON.parse(allblogs).map((blog) => {
+    if (blog.recommend === 1) {
+      recblogs.push(blog)
+    }
+  })
+  let pagesize = 30
+  let page = ctx.request.query.page || 1
+  let total = recblogs.length
+  let maxpage = 1
+  if (total % pagesize === 0) {
+    maxpage = parseInt(total / pagesize)
+  } else {
+    maxpage = parseInt(total / pagesize) + 1
+  }
+  if (page > maxpage) {
+    page = maxpage
+  }
+  let first = (page - 1) * pagesize
+  let blogList = recblogs.slice(first, first + pagesize)
+  ctx.data = blogList
+  await next()
+})
+
 // 获取博客内容
 router.get('/blog/:name', async (ctx, next) => {
   ctx.data = await getContent(ctx.params.name)
