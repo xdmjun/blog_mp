@@ -88,7 +88,10 @@ router.get('/getToken', async (ctx, next) => {
     )
     ctx.data = { token: cache_access_token, expires_time: expires_time }
   } else {
-    ctx.data = tokenInfo
+    ctx.data = {
+      token: tokenInfo.access_token,
+      expires_time: tokenInfo.expires_time,
+    }
   }
   await next()
 })
