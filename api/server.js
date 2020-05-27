@@ -58,9 +58,10 @@ router.get('/getToken', async (ctx, next) => {
     ? JSON.parse(fs.readFileSync('token_info.json', 'utf-8'))
     : null
   let expires_time = tokenInfo ? tokenInfo.expires_time : ''
-  let cache_access_token = tokenInfo ? tokenInfo.access_token : ''
+  let cache_access_token =
+    tokenInfo && tokenInfo.access_token ? tokenInfo.access_token : ''
   if (
-    Date.now() > expires_time + 3600 ||
+    parseInt(Date.now() / 1000) > expires_time + 3600 ||
     tokenInfo == null ||
     cache_access_token == ''
   ) {
@@ -77,7 +78,7 @@ router.get('/getToken', async (ctx, next) => {
     })
     tokenInfoNew = JSON.parse(tokenInfoNew)
     cache_access_token = tokenInfoNew.access_token
-    expires_time = Date.now()
+    expires_time = parseInt(Date.now() / 1000)
     fs.writeFileSync(
       'token_info.json',
       JSON.stringify({
@@ -85,7 +86,7 @@ router.get('/getToken', async (ctx, next) => {
         expires_time: expires_time,
       })
     )
-    ctx.data = { token: cache_access_token }
+    ctx.data = { token: cache_access_token, expires_time: expires_time }
   } else {
     ctx.data = tokenInfo
   }

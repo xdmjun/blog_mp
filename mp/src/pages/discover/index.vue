@@ -12,7 +12,7 @@
         <image class="module-pic" src="/static/images/mygzh.png" mode="aspectFit" />
         <div class="info">
           <div class="title">公众号文章</div>
-          <div class="desc">同步极客公众号历史文章</div>
+          <div class="desc">同步极客之路公众号历史文章</div>
         </div>
       </div>
     </div>
