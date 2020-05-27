@@ -6,7 +6,8 @@
     "pages/my/main",
     "pages/blog/main",
     "pages/wx_article/main",
-    "pages/article_detail/main"
+    "pages/article_detail/main",
+    "pages/rec_blog/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

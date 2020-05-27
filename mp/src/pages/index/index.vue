@@ -16,11 +16,15 @@
     </swiper>
     <div class="quick-nav-box">
       <div class="nav-item" @click="navTo(1)">
-        <image class="nav-icon" src="/static/images/cloud.png" />
+        <image class="nav-icon" src="/static/images/cloud.png" mode="aspectFit" />
         <div class="nav-name">标签云</div>
       </div>
       <div class="nav-item" @click="navTo(2)">
-        <image class="nav-icon" src="/static/images/mygzh.png" />
+        <image class="nav-icon" src="/static/images/fire.png" mode="aspectFit" />
+        <div class="nav-name">热门文章</div>
+      </div>
+      <div class="nav-item" @click="navTo(3)">
+        <image class="nav-icon" src="/static/images/mygzh.png" mode="aspectFit" />
         <div class="nav-name">公号文章</div>
       </div>
     </div>
@@ -74,6 +78,9 @@ export default {
           url = '/pages/tags/main'
           break
         case 2:
+          url = '/pages/rec_blog/main'
+          break
+        case 3:
           url = '/pages/wx_article/main'
           break
         default:

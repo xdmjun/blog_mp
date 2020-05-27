@@ -13,7 +13,6 @@
 </template>
 
 <script>
-// import { userOrg, profitLists, profitSummary } from '@/api/api'
 export default {
   data() {
     return {
