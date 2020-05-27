@@ -165,8 +165,7 @@ page {
     .title {
       font-size: 16px;
       font-weight: bold;
-      border-bottom: 1px solid #efefef;
-      padding: 5px 15px;
+      padding: 7px 15px 5px 15px;
     }
     .rec {
       width: 14px;
