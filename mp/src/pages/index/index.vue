@@ -24,7 +24,14 @@
           is-link
           @click="toDetail(blog.file_name)"
         >
-          <i-icon v-if="blog.recommend" color="red" type="praise_fill" slot="icon" />
+          <image
+            v-if="blog.recommend"
+            class="rec"
+            src="/static/images/recommend.png"
+            mode="aspectFit"
+            slot="icon"
+          />
+          <!-- <i-icon v-if="blog.recommend" color="red" type="praise_fill" slot="icon" /> -->
         </i-cell>
       </i-cell-group>
     </div>
@@ -108,6 +115,10 @@ page {
       font-weight: bold;
       border-bottom: 1px solid #efefef;
       padding: 5px 15px;
+    }
+    .rec {
+      width: 14px;
+      height: 15px;
     }
   }
 }

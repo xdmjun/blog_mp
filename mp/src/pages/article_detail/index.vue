@@ -14,14 +14,20 @@ export default {
   },
   methods: {},
   onLoad() {
-    this.title = this.$root.$mp.query.title
+    this.title = decodeURI(this.$root.$mp.query.title)
     mpvue.setNavigationBarTitle({ title: this.title })
   },
   onShow() {
     this.url = wx.getStorageSync('currentUrl')
   },
   onReachBottom() {},
-  onShareAppMessage() {},
+  onShareAppMessage() {
+    let path = '/pages/article_detail/main?title=' + this.title
+    return {
+      title: this.title,
+      path: encodeURI(path),
+    }
+  },
   mounted() {
     wx.showShareMenu()
   },
