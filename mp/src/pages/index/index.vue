@@ -14,6 +14,16 @@
         </swiper-item>
       </div>
     </swiper>
+    <div class="quick-nav-box">
+      <div class="nav-item" @click="navTo(1)">
+        <image class="nav-icon" src="/static/images/cloud.png" />
+        <div class="nav-name">标签云</div>
+      </div>
+      <div class="nav-item" @click="navTo(2)">
+        <image class="nav-icon" src="/static/images/mygzh.png" />
+        <div class="nav-name">公号文章</div>
+      </div>
+    </div>
     <div class="blogs-box">
       <div class="title">最新博客</div>
       <i-cell-group>
@@ -57,6 +67,21 @@ export default {
     }
   },
   methods: {
+    navTo(id) {
+      var url = ''
+      switch (id) {
+        case 1:
+          url = '/pages/tags/main'
+          break
+        case 2:
+          url = '/pages/wx_article/main'
+          break
+        default:
+      }
+      mpvue.navigateTo({
+        url: url,
+      })
+    },
     toDetail(name) {
       mpvue.navigateTo({
         url: '/pages/blog/main?name=' + name,
@@ -108,8 +133,35 @@ page {
       width: 100%;
     }
   }
+  .quick-nav-box {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    padding: 10px 40px 15px 40px;
+    border-bottom: 1px solid #efefef;
+    .nav-item {
+      flex: 1;
+      text-align: center;
+      .nav-icon {
+        width: 40px;
+        height: 40px;
+      }
+      .nav-name {
+        margin-top: 2px;
+        text-align: center;
+        color: #757575;
+        font-size: 13px;
+      }
+      &:first-child {
+        .nav-icon {
+          width: 57px;
+        }
+      }
+    }
+  }
+
   .blogs-box {
-    padding: 0 5px;
+    padding: 5px;
     .title {
       font-size: 16px;
       font-weight: bold;

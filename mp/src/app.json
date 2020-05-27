@@ -33,6 +33,7 @@
     "i-notice-bar": "../static/iview/notice-bar/index",
     "i-load-more": "../static/iview/load-more/index",
     "i-alert": "../static/iview/alert/index",
+    "van-icon": "../static/vant/icon/index",
     "van-popup": "../static/vant/popup/index",
     "van-area": "../static/vant/area/index"
   },
