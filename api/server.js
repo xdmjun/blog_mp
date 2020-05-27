@@ -211,9 +211,15 @@ async function initTitle(blog_routes) {
       data.indexOf('date:') + 6,
       data.indexOf('type:') - 1
     )
+    let tmpDesc = data.substring(
+        data.indexOf('---') + 3,
+        data.indexOf('<!-- more -->') - 1
+      ),
+      desc = tmpDesc.substring(tmpDesc.lastIndexOf('---') + 4).trim()
     let recommend = data.indexOf('recommend:') != -1 ? 1 : 0
     blog_array.push({
       title: title,
+      desc: desc,
       date: date,
       recommend: recommend,
       file_name: blog_file_name,
