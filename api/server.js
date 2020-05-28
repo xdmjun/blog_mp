@@ -5,6 +5,8 @@ const router = new Router()
 const fg = require('fast-glob')
 const fs = require('fs')
 const request = require('request')
+const util = require('util')
+const exec = util.promisify(require('child_process').exec)
 let config = require('./config.js')
 const blog_html_path = config.base_path + 'blog/*.html',
   blog_md_path = config.base_path + 'blog/*.md',
@@ -138,13 +140,21 @@ router.get('/wxarticles', async (ctx, next) => {
 
 // 生成博客列表json
 router.get('/blogs/init', async (ctx, next) => {
-  let blog_routes = await fg(blog_md_path, {
-    onlyFiles: true,
-    cwd: __dirname,
-    deep: 1,
-  })
-
-  ctx.data = await initTitle(blog_routes)
+  // 拉取最新博客markdown文件
+  const { stdout, stderr } = await exec(
+    'cd ' + config.base_path + ' && cd ../ && git pull'
+  )
+  if (stderr == '') {
+    // 读取md文件列表
+    let blog_routes = await fg(blog_md_path, {
+      onlyFiles: true,
+      cwd: __dirname,
+      deep: 1,
+    })
+    ctx.data = '博客仓库更新成功->' + stdout + (await initTitle(blog_routes))
+  } else {
+    ctx.data = stderr
+  }
   await next()
 })
 
@@ -256,6 +266,7 @@ async function initTitle(blog_routes) {
     return b.date > a.date ? 1 : -1
   })
   fs.writeFileSync('blogs.json', JSON.stringify(blog_array))
+  return '生成' + blog_array.length + '条记录'
 }
 
 // 从json文件获取博客标题
