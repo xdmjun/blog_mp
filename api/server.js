@@ -252,10 +252,14 @@ async function initTitle(blog_routes) {
         data.indexOf('---') + 3,
         data.indexOf('<!-- more -->') - 1
       ),
-      desc = tmpDesc.substring(tmpDesc.lastIndexOf('---') + 4).trim()
+      more = tmpDesc.substring(tmpDesc.lastIndexOf('---') + 4).trim()
+    let desc = data
+      .substr(data.indexOf('<!-- more -->') + 14, 80)
+      .replace('[[toc]]', '')
     let recommend = data.indexOf('recommend:') != -1 ? 1 : 0
     blog_array.push({
       title: title,
+      more: more,
       desc: desc,
       date: date,
       recommend: recommend,
@@ -333,6 +337,6 @@ async function getContent(blog_name) {
     }
   }
 
-  blogCont.content = cnt
+  blogCont.content = cnt.replace('[[toc]]', '')
   return blogCont
 }
