@@ -35,6 +35,7 @@
           v-for="(blog,index) in blogs"
           :key="index"
           :title="blog.title"
+          :label="blog.desc"
           is-link
           @click="toDetail(blog.file_name)"
         >
@@ -45,6 +46,7 @@
             mode="aspectFit"
             slot="icon"
           />
+          <!-- <div>{{blog.desc}}</div> -->
           <!-- <i-icon v-if="blog.recommend" color="red" type="praise_fill" slot="icon" /> -->
         </i-cell>
       </i-cell-group>
@@ -127,7 +129,6 @@ export default {
   onShow() {},
 }
 </script>
-
 <style lang="less" scoped>
 page {
   background: #fff;
@@ -177,6 +178,8 @@ page {
     .rec {
       width: 14px;
       height: 15px;
+      position: relative;
+      top: -12px;
     }
   }
 }

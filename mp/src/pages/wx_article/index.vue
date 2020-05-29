@@ -9,6 +9,7 @@
         @click="toDetail(article)"
       ></i-cell>
     </i-cell-group>
+    <i-load-more :loading="loading" />
   </div>
 </template>
 
@@ -18,6 +19,7 @@ export default {
     return {
       title: '',
       name: '',
+      loading: true,
       wxarticles: [],
     }
   },
@@ -43,6 +45,7 @@ export default {
             data: { token: data.data.token },
           })
           .then(res => {
+            this.loading = false
             this.wxarticles = JSON.parse(res.result).data
           })
       })
