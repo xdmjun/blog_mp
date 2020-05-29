@@ -256,8 +256,9 @@ async function initTitle(blog_routes) {
     let desc = data
       .substr(data.indexOf('<!-- more -->') + 14, 60)
       .replace('[[toc]]', '')
+      .replace(/[\n]/g, '')
       .replace('###', '')
-      .replace(/<\/?[^>]*>/g, '')
+      .replace('<a data-fancybox', '')
     let recommend = data.indexOf('recommend:') != -1 ? 1 : 0
     blog_array.push({
       title: title,
