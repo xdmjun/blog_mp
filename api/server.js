@@ -15,6 +15,8 @@ const blog_html_path = config.base_path + 'blog/*.html',
   batchgetMaterialUrl = config.batchgetMaterialUrl,
   appid = config.appid,
   appsecret = config.appsecret,
+  mpAppid = config.mpAppid,
+  mpAppsecret = config.mpAppsecret,
   type = config.type,
   offset = config.offset,
   count = config.count
@@ -54,10 +56,15 @@ router.get('/', async (ctx, next) => {
   await next()
 })
 
-// 获取公众号全局token
+// 获取公众号/小程序全局token
 router.get('/getToken', async (ctx, next) => {
-  let tokenInfo = fs.existsSync('token_info.json')
-    ? JSON.parse(fs.readFileSync('token_info.json', 'utf-8'))
+  let type = ctx.request.query.type || 'gzh',
+    tokenFileName = 'token_info.json'
+  if (type == 'mp') {
+    tokenFileName = 'mp_token_info.json'
+  }
+  let tokenInfo = fs.existsSync(tokenFileName)
+    ? JSON.parse(fs.readFileSync(tokenFileName, 'utf-8'))
     : null
   let expires_time = tokenInfo ? tokenInfo.expires_time : ''
   let cache_access_token =
@@ -82,7 +89,7 @@ router.get('/getToken', async (ctx, next) => {
     cache_access_token = tokenInfoNew.access_token
     expires_time = parseInt(Date.now() / 1000)
     fs.writeFileSync(
-      'token_info.json',
+      tokenFileName,
       JSON.stringify({
         access_token: cache_access_token,
         expires_time: expires_time,
@@ -185,6 +192,34 @@ router.get('/recblogs', async (ctx, next) => {
     recblogs = []
   JSON.parse(allblogs).map((blog) => {
     if (blog.recommend === 1) {
+      recblogs.push(blog)
+    }
+  })
+  let pagesize = 30
+  let page = ctx.request.query.page || 1
+  let total = recblogs.length
+  let maxpage = 1
+  if (total % pagesize === 0) {
+    maxpage = parseInt(total / pagesize)
+  } else {
+    maxpage = parseInt(total / pagesize) + 1
+  }
+  if (page > maxpage) {
+    page = maxpage
+  }
+  let first = (page - 1) * pagesize
+  let blogList = recblogs.slice(first, first + pagesize)
+  ctx.data = blogList
+  await next()
+})
+
+// 博客搜索
+router.get('/blogs/search/:name', async (ctx, next) => {
+  let allblogs = await getTitleFromJson(),
+    recblogs = [],
+    blogName = ctx.params.name
+  JSON.parse(allblogs).map((blog) => {
+    if (blog.title.includes(blogName)) {
       recblogs.push(blog)
     }
   })
