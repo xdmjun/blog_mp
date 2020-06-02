@@ -74,16 +74,29 @@ router.get('/getToken', async (ctx, next) => {
     tokenInfo == null ||
     cache_access_token == ''
   ) {
+    let tokenForUrl
+    if (type == 'mp') {
+      tokenForUrl =
+        tokenUrl +
+        '?grant_type=client_credential&appid=' +
+        mpAppid +
+        '&secret=' +
+        mpAppsecret
+    } else {
+      tokenForUrl =
+        tokenUrl +
+        '?grant_type=client_credential&appid=' +
+        appid +
+        '&secret=' +
+        appsecret
+    }
     let tokenInfoNew = await new Promise(function (resolve, reject) {
-      request.get(
-        `${tokenUrl}?grant_type=client_credential&appid=${appid}&secret=${appsecret}`,
-        function (error, response, body) {
-          if (!error && response.statusCode == 200) {
-            resolve(body)
-          }
-          reject(error)
+      request.get(tokenForUrl, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          resolve(body)
         }
-      )
+        reject(error)
+      })
     })
     tokenInfoNew = JSON.parse(tokenInfoNew)
     cache_access_token = tokenInfoNew.access_token
@@ -102,6 +115,39 @@ router.get('/getToken', async (ctx, next) => {
       expires_time: tokenInfo.expires_time,
     }
   }
+  await next()
+})
+
+// 获取小程序码
+router.get('/getWxaCode', async (ctx, next) => {
+  let page = ctx.request.query.page || '/pages/index/main',
+    token = ctx.request.header.token || ''
+
+  // 获取小程序码配置
+  const codeOptions = {
+    method: 'POST',
+    url:
+      'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' + token,
+    body: {
+      page: page,
+      width: 430,
+      scene: '1',
+    },
+    json: true,
+    encoding: null,
+  }
+
+  let imgBuffer = await new Promise(function (resolve, reject) {
+    request.post(codeOptions, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        resolve(body)
+      }
+      reject(error)
+    })
+  })
+
+  // 获取二进制图片
+  ctx.data = imgBuffer.buffer
   await next()
 })
 
