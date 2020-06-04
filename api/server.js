@@ -9,6 +9,7 @@ const util = require('util')
 const exec = util.promisify(require('child_process').exec)
 const path = require('path')
 const mime = require('mime-types')
+const cors = require('koa2-cors');
 let config = require('./config.js')
 const blog_html_path = config.base_path + 'blog/*.html',
   blog_md_path = config.base_path + 'blog/*.md',
@@ -27,6 +28,8 @@ const blog_html_path = config.base_path + 'blog/*.html',
 // user agent
 const { userAgent } = require('koa-useragent')
 app.use(userAgent)
+
+app.use(cors());
 
 // 全局异常处理
 app.use(async (ctx, next) => {
