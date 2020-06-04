@@ -156,7 +156,7 @@ router.get('/getWxaCode', async (ctx, next) => {
       body: {
         page: page,
         width: 230,
-        scene: scene,
+        scene: scene || 'pc=1',
       },
       json: true,
       encoding: null,
