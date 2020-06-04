@@ -15,7 +15,10 @@
     "koa": "^2.11.0",
     "koa-log4": "^2.3.2",
     "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
     "koa-useragent": "^3.0.0",
+    "mime-types": "^2.1.27",
+    "path": "^0.12.7",
     "request": "^2.88.2"
   }
 }

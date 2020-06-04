@@ -20,8 +20,9 @@ export default {
     }
   },
   methods: {},
-  onLoad() {
-    this.name = this.$root.$mp.query.name
+  onLoad(options) {
+    let scene = decodeURIComponent(options.scene)
+    this.name = this.$root.$mp.query.name || scene
     wx.cloud
       .callFunction({
         name: 'blog',

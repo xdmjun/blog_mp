@@ -7,6 +7,8 @@ const fs = require('fs')
 const request = require('request')
 const util = require('util')
 const exec = util.promisify(require('child_process').exec)
+const path = require('path')
+const mime = require('mime-types')
 let config = require('./config.js')
 const blog_html_path = config.base_path + 'blog/*.html',
   blog_md_path = config.base_path + 'blog/*.md',
@@ -19,7 +21,8 @@ const blog_html_path = config.base_path + 'blog/*.html',
   mpAppsecret = config.mpAppsecret,
   type = config.type,
   offset = config.offset,
-  count = config.count
+  count = config.count,
+  env = config.env
 
 // user agent
 const { userAgent } = require('koa-useragent')
@@ -42,12 +45,17 @@ app.use(async (ctx, next) => {
 // pretty json result
 app.use(async (ctx, next) => {
   await next()
-  ctx.set('Content-Type', 'application/json')
-  ctx.body = {
-    code: ctx.code || 0,
-    data: ctx.data,
-    message: ctx.msg || 'success',
-    etime: Date.now(),
+  if (!ctx.mimeType) {
+    ctx.set('Content-Type', 'application/json')
+    ctx.body = {
+      code: ctx.code || 0,
+      data: ctx.data,
+      message: ctx.msg || 'success',
+      etime: Date.now(),
+    }
+  } else {
+    ctx.set('content-type', ctx.mimeType)
+    ctx.body = ctx.data
   }
 })
 
@@ -120,34 +128,59 @@ router.get('/getToken', async (ctx, next) => {
 
 // 获取小程序码
 router.get('/getWxaCode', async (ctx, next) => {
-  let page = ctx.request.query.page || '/pages/index/main',
+  let page = ctx.request.query.page || 'pages/index/main',
     token = ctx.request.header.token || ''
 
-  // 获取小程序码配置
-  const codeOptions = {
-    method: 'POST',
-    url:
-      'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' + token,
-    body: {
-      page: page,
-      width: 430,
-      scene: '1',
-    },
-    json: true,
-    encoding: null,
+  // 拼接本地文件路径
+  let codePic, scene
+  if (page.indexOf('?') != -1) {
+    scene = page.split('?')[1].split('=')[1]
+    page = page.split('?')[0]
+    codePic = path.join(__dirname, 'public/' + scene + '.jpg')
+  } else {
+    codePic = path.join(
+      __dirname,
+      'public/' + page.replace(/\//g, '-') + '.jpg'
+    )
   }
 
-  let imgBuffer = await new Promise(function (resolve, reject) {
-    request.post(codeOptions, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        resolve(body)
-      }
-      reject(error)
+  // 文件不存在时请求接口重新生成小程序码
+  if (!fs.existsSync(codePic)) {
+    console.log(page)
+    console.log(scene)
+    // 获取小程序码配置
+    const codeOptions = {
+      method: 'POST',
+      url:
+        'https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=' + token,
+      body: {
+        page: page,
+        width: 230,
+        scene: scene,
+      },
+      json: true,
+      encoding: null,
+    }
+    // 获取小程序码图片Buffer
+    let imgBuffer = await new Promise(function (resolve, reject) {
+      request.post(codeOptions, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          resolve(body)
+        }
+        reject(error)
+      })
     })
-  })
 
-  // 获取二进制图片
-  ctx.data = imgBuffer.buffer
+    fs.writeFileSync(codePic, imgBuffer, function (err) {
+      //生成图片(把buffer写入到图片文件)
+      if (err) {
+        console.log(err)
+      }
+    })
+  }
+  let codeFile = fs.readFileSync(codePic)
+  ctx.mimeType = mime.lookup(codePic)
+  ctx.data = codeFile
   await next()
 })
 
