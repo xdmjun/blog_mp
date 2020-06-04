@@ -346,7 +346,7 @@ router.get('/tags', async (ctx, next) => {
 app.use(router.routes())
 app.use(router.allowedMethods())
 
-app.listen(3000)
+app.listen(config.serverPort)
 
 // 生成博客标题json数据
 async function initTitle(blog_routes) {

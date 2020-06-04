@@ -15,4 +15,6 @@ module.exports = {
   count: '', // 返回素材的数量，取值在1到20之间
   
   env: '', // 小程序云开发环境Id
+
+  serverPort: ''// 服务端口
 }
