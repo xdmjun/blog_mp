@@ -36,6 +36,7 @@
     "i-alert": "../static/iview/alert/index",
     "van-icon": "../static/vant/icon/index",
     "van-popup": "../static/vant/popup/index",
+    "van-action-sheet": "../static/vant/action-sheet/index",
     "van-area": "../static/vant/area/index"
   },
   "tabBar": {
