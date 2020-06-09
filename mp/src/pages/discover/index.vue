@@ -15,6 +15,13 @@
           <div class="desc">同步极客之路公众号历史文章</div>
         </div>
       </div>
+      <div class="module flex" @click="navTo(3)">
+        <image class="module-pic" src="/static/images/p-note.png" mode="aspectFit" />
+        <div class="info">
+          <div class="title">产品笔记</div>
+          <div class="desc">关于互联网产品的一点记录</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -33,6 +40,9 @@ export default {
           break
         case 2:
           url = '/pages/wx_article/main'
+          break
+        case 3:
+          url = '/pages/search_blog/main'
           break
         default:
       }
