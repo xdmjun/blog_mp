@@ -9,8 +9,8 @@
       circular="true"
     >
       <div v-for="(item,i) in bannerList" :key="i">
-        <swiper-item>
-          <image :src="item" lazy-load="true" class="slide-image" mode="aspectFit" />
+        <swiper-item @click="jump(item.name)">
+          <image :src="item.src" lazy-load="true" class="slide-image" mode="aspectFit" />
         </swiper-item>
       </div>
     </swiper>
@@ -64,11 +64,11 @@ export default {
       haveMore: true,
       loading: false,
       bannerList: [
-        'http://xuedingmiao.com/images/gitcmd.png',
-        'http://xuedingmiao.com/images/bm1.png',
-        'http://xuedingmiao.com/images/dau-value.png',
-        'http://xuedingmiao.com/images/product-dev-rule.png',
-        'http://xuedingmiao.com/images/company-change.png',
+        { src: 'http://xuedingmiao.com/images/gitcmd.png', name: '' },
+        { src: 'http://xuedingmiao.com/images/bm1.png', name: '' },
+        { src: 'http://xuedingmiao.com/images/dau-value.png', name: '' },
+        { src: 'http://xuedingmiao.com/images/product-dev-rule.png', name: '' },
+        { src: 'http://xuedingmiao.com/images/company-change.png', name: '' },
       ],
     }
   },
@@ -90,6 +90,13 @@ export default {
       mpvue.navigateTo({
         url: url,
       })
+    },
+    jump(name) {
+      if (name !== '') {
+        mpvue.navigateTo({
+          url: '/pages/blog/main?name=' + name,
+        })
+      }
     },
     toDetail(name) {
       mpvue.navigateTo({
@@ -117,6 +124,13 @@ export default {
   onShareAppMessage() {},
   onLoad() {
     this.getList()
+    wx.cloud
+      .callFunction({
+        name: 'banner',
+      })
+      .then(res => {
+        this.bannerList = res.result
+      })
   },
   onReachBottom() {
     // 下拉加载
