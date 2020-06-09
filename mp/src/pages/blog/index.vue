@@ -1,6 +1,7 @@
 <template>
   <div class="main">
     <i-notice-bar icon="systemprompt" loop>更多内容请移步web端博客(xuedingmiao.com)</i-notice-bar>
+    <official-account></official-account>
     <i-alert v-if="showVideoTip" type="warning">文章包含外链视频，个人小程序不支持播放。如需观看，请移步Web端查看</i-alert>
     <div class="title">{{title}}</div>
 
@@ -250,7 +251,7 @@ page {
     font-size: 16px;
     color: #4a4a4a;
     border-bottom: 1px solid #efefef;
-    padding: 3px;
+    padding: 8px 0;
     text-align: center;
   }
   .content {
