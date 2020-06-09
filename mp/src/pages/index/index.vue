@@ -65,10 +65,6 @@ export default {
       loading: false,
       bannerList: [
         { src: 'http://xuedingmiao.com/images/gitcmd.png', name: '' },
-        { src: 'http://xuedingmiao.com/images/bm1.png', name: '' },
-        { src: 'http://xuedingmiao.com/images/dau-value.png', name: '' },
-        { src: 'http://xuedingmiao.com/images/product-dev-rule.png', name: '' },
-        { src: 'http://xuedingmiao.com/images/company-change.png', name: '' },
       ],
     }
   },
