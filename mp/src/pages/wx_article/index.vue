@@ -52,7 +52,12 @@ export default {
   },
   onShow() {},
   onReachBottom() {},
-  onShareAppMessage() {},
+  onShareAppMessage() {
+    return {
+      title: '极客之路最近的文章',
+      path: '/pages/wx_article/main'
+    }
+  },
   mounted() {
     wx.showShareMenu()
   },

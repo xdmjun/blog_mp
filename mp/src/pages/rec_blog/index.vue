@@ -60,6 +60,13 @@ export default {
   mounted() {
     wx.showShareMenu()
   },
+  onShareAppMessage() {
+    return {
+      title: '薛定喵君给您推荐了一批博客文章',
+      path: '/pages/rec_blog/main',
+      imageUrl: 'http://tiaocaoer.com/images/site_icon.png',
+    }
+  },
   onReachBottom() {},
   onUnload() {},
 }

@@ -61,6 +61,13 @@ export default {
   mounted() {
     wx.showShareMenu()
   },
+  onShareAppMessage() {
+    return {
+      title: '薛定喵君的产品笔记',
+      path: '/pages/search_blog/main',
+      imageUrl: 'http://tiaocaoer.com/images/site_icon.png',
+    }
+  },
   onReachBottom() {},
   onUnload() {},
 }
