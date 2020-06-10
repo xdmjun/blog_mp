@@ -22,6 +22,13 @@
           <div class="desc">关于互联网产品的一点记录</div>
         </div>
       </div>
+      <div class="module flex" @click="navTo(4)">
+        <image class="module-pic" src="/static/images/xcx.png" mode="aspectFit" />
+        <div class="info">
+          <div class="title">小程序开发专区</div>
+          <div class="desc">关于小程序开发的经验记录</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -43,6 +50,9 @@ export default {
           break
         case 3:
           url = '/pages/search_blog/main'
+          break
+        case 4:
+          url = '/pages/search_blog/main?key=' + encodeURIComponent('小程序')
           break
         default:
       }

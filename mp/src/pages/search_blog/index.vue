@@ -27,6 +27,7 @@ export default {
     return {
       page: 1,
       loading: true,
+      key: '',
       blogs: [],
     }
   },
@@ -41,7 +42,7 @@ export default {
       wx.cloud
         .callFunction({
           name: 'search',
-          data: { key: encodeURIComponent('产品'), page: this.page },
+          data: { key: encodeURIComponent(this.key), page: this.page },
         })
         .then(res => {
           this.loading = false
@@ -55,7 +56,9 @@ export default {
     },
   },
   onShow() {},
-  onLoad() {
+  onLoad(options) {
+    this.key = decodeURIComponent(options.key || '产品')
+    mpvue.setNavigationBarTitle({ title: this.key + '笔记' })
     this.getList()
   },
   mounted() {
@@ -63,12 +66,15 @@ export default {
   },
   onShareAppMessage() {
     return {
-      title: '薛定喵君的产品笔记',
-      path: '/pages/search_blog/main',
+      title: '薛定喵君的' + this.key + '笔记',
+      path: '/pages/search_blog/main?key=' + encodeURIComponent(this.key),
       imageUrl: 'http://tiaocaoer.com/images/site_icon.png',
     }
   },
-  onReachBottom() {},
+  onReachBottom() {
+    // this.page++
+    // this.getList()
+  },
   onUnload() {},
 }
 </script>
