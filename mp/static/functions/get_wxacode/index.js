@@ -10,8 +10,9 @@ exports.main = async (event, context) => {
       isHyaline: true,
     })
 
+    let name = page.substr(page.indexOf('=') + 1)
     const upload = await cloud.uploadFile({
-      cloudPath: 'wxacode.png',
+      cloudPath: name + '.png',
       fileContent: result.buffer,
     })
     let wxacodefileID = upload.fileID

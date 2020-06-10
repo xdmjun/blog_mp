@@ -11,11 +11,21 @@
         <div class="desc">⬇微信公众号⬇</div>
         <image class="wxgh" :src="wxghUrl" background-size="cover" />
       </div>
+      <div class="item" @tap="subscribe">
+        <div class="title-box">
+          <div class="title">
+            <van-icon name="exchange" color="#409bff" class="icon" />
+            {{subscribed?'已订阅':'订阅更新'}}
+          </div>
+        </div>
+      </div>
     </div>
+    <i-toast id="toast" />
   </div>
 </template>
 
 <script>
+import { $Toast } from '../../../static/iview/base/index'
 export default {
   data() {
     return {
@@ -26,9 +36,44 @@ export default {
         url: 'https://github.com/xuedingmiaojun',
       },
       wxghUrl: '/static/images/qrcode_for_xdmj.jpg',
+      subscribed: 0,
     }
   },
-  methods: {},
+  methods: {
+    subscribe() {
+      let that = this
+      if (that.subscribed) {
+        return
+      }
+      let tmplIds = ['BW2SWdM8-9Et4q0gdncZUdQlnZ0Ai4Ikhwdp4rNJ9AY']
+      wx.requestSubscribeMessage({
+        tmplIds: tmplIds,
+        success(res) {
+          wx.cloud
+            .callFunction({
+              name: 'subscribe',
+              data: {
+                templateId: tmplIds[0],
+              },
+            })
+            .then(() => {
+              that.subscribed = 1
+              $Toast({
+                content: '订阅成功',
+                type: 'success',
+              })
+            })
+            .catch(() => {
+              that.subscribed = 0
+              $Toast({
+                content: '订阅失败',
+                type: 'error',
+              })
+            })
+        },
+      })
+    },
+  },
   onShow() {},
   onReachBottom() {},
   onShareAppMessage() {},
@@ -70,7 +115,25 @@ page {
     .desc {
       color: rgba(0, 0, 0, 0.45);
     }
+    .item {
+      margin-top: 20rpx;
+      text-align: center;
+      .title-box {
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        .title {
+          color: #4a4a4a;
+          font-size: 28rpx;
+          .icon {
+            margin-right: 5px;
+          }
+        }
+      }
+    }
   }
+
   .wx-info {
     margin-top: 10px;
     .wxgh {
