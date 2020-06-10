@@ -17,7 +17,7 @@
         />
       </i-cell>
     </i-cell-group>
-    <i-load-more :loading="loading" />
+    <i-load-more v-if="loading" :loading="loading" />
   </div>
 </template>
 
@@ -75,7 +75,9 @@ export default {
     // this.page++
     // this.getList()
   },
-  onUnload() {},
+  onUnload() {
+    Object.assign(this.$data, this.$options.data())
+  },
 }
 </script>
 

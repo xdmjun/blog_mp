@@ -49,7 +49,7 @@ export default {
           url = '/pages/wx_article/main'
           break
         case 3:
-          url = '/pages/search_blog/main'
+          url = '/pages/search_blog/main?key=' + encodeURIComponent('产品')
           break
         case 4:
           url = '/pages/search_blog/main?key=' + encodeURIComponent('小程序')
