@@ -9,7 +9,7 @@ const util = require('util')
 const exec = util.promisify(require('child_process').exec)
 const path = require('path')
 const mime = require('mime-types')
-const cors = require('koa2-cors');
+const cors = require('koa2-cors')
 let config = require('./config.js')
 const blog_html_path = config.base_path + 'blog/*.html',
   blog_md_path = config.base_path + 'blog/*.md',
@@ -29,7 +29,7 @@ const blog_html_path = config.base_path + 'blog/*.html',
 const { userAgent } = require('koa-useragent')
 app.use(userAgent)
 
-app.use(cors());
+app.use(cors())
 
 // 全局异常处理
 app.use(async (ctx, next) => {
@@ -244,6 +244,53 @@ router.get('/blogs/init', async (ctx, next) => {
   } else {
     ctx.data = stderr
   }
+  await next()
+})
+
+// 更新云数据库记录
+router.get('/tcb/notice', async (ctx, next) => {
+  let allblogs = await getTitleFromJson(),
+    title = JSON.parse(allblogs)[0].title,
+    time = JSON.parse(allblogs)[0].date
+
+  let tokenRs = await new Promise(function (resolve, reject) {
+    request(
+      'http://localhost:' + config.serverPort + '/getToken?type=mp',
+      function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          resolve(body)
+        }
+        reject(error)
+      }
+    )
+  })
+
+  let token = JSON.parse(tokenRs).data.token
+  let updStr = 'data:{upd:true,blogname:"' + title + '",time:"' + time + '"}'
+  const options = {
+    method: 'POST',
+    url: 'https://api.weixin.qq.com/tcb/databaseupdate?access_token=' + token,
+    body: {
+      env: env,
+      query:
+        'db.collection("messages").where({done:false}).update({data:{' +
+        updStr +
+        '}})',
+    },
+    json: true,
+    encoding: null,
+  }
+
+  let rs = await new Promise(function (resolve, reject) {
+    request(options, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        resolve(body)
+      }
+      reject(error)
+    })
+  })
+
+  ctx.data = rs
   await next()
 })
 
