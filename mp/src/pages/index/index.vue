@@ -27,6 +27,10 @@
         <image class="nav-icon" src="/static/images/mygzh.png" mode="aspectFit" />
         <div class="nav-name">公号文章</div>
       </div>
+      <div class="nav-item" @click="navTo(4)">
+        <image class="nav-icon" src="/static/images/p-note.png" mode="aspectFit" />
+        <div class="nav-name">产品笔记</div>
+      </div>
     </div>
     <div class="blogs-box">
       <div class="title">最新博客</div>
@@ -63,9 +67,7 @@ export default {
       page: 1,
       haveMore: true,
       loading: false,
-      bannerList: [
-        { src: 'http://xuedingmiao.com/images/gitcmd.png', name: '' },
-      ],
+      bannerList: [{ src: 'http://xuedingmiao.com/images/gitcmd.png', name: '' }],
     }
   },
   methods: {
@@ -80,6 +82,9 @@ export default {
           break
         case 3:
           url = '/pages/wx_article/main'
+          break
+        case 4:
+          url = '/pages/search_blog/main?key=' + encodeURIComponent('产品')
           break
         default:
       }
