@@ -417,13 +417,31 @@ async function initTitle(blog_routes) {
         data.indexOf('<!-- more -->') - 1
       ),
       more = tmpDesc.substring(tmpDesc.lastIndexOf('---') + 4).trim()
+
+    // 博客描述
     let desc = data
       .substr(data.indexOf('<!-- more -->') + 14, 60)
       .replace('[[toc]]', '')
       .replace(/[\n]/g, '')
       .replace('###', '')
       .replace('<a data-fancybox', '')
+
+    // 是否是推荐博客
     let recommend = data.indexOf('recommend:') != -1 ? 1 : 0
+
+    // 获取第一张图
+    let imgReg = /<img.*?(?:>|\/>)/gi //匹配img标签
+    let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i // 匹配图片中的src
+    let cnt = data.substring(data.indexOf('<!-- more -->') + 14)
+    let imgArr = cnt.match(imgReg) //筛选出所有的img
+
+    let imgUrl = ''
+
+    if (imgArr && imgArr.length > 0) {
+      img = imgArr[0].match(srcReg)
+      imgUrl = img ? img[1] : ''
+    }
+
     blog_array.push({
       title: title,
       more: more,
@@ -431,6 +449,7 @@ async function initTitle(blog_routes) {
       date: date,
       recommend: recommend,
       file_name: blog_file_name,
+      img: imgUrl,
     })
   })
   blog_array.sort(function (a, b) {
