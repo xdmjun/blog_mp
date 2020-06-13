@@ -34,26 +34,36 @@
     </div>
     <div class="blogs-box">
       <div class="title">最新博客</div>
-      <i-cell-group>
-        <i-cell
-          v-for="(blog,index) in blogs"
-          :key="index"
-          :title="blog.title"
-          :label="blog.desc"
-          is-link
-          @click="toDetail(blog.file_name)"
-        >
-          <image
-            v-if="blog.recommend"
-            class="rec"
-            src="/static/images/recommend.png"
-            mode="aspectFit"
-            slot="icon"
-          />
-          <!-- <div>{{blog.desc}}</div> -->
-          <!-- <i-icon v-if="blog.recommend" color="red" type="praise_fill" slot="icon" /> -->
-        </i-cell>
-      </i-cell-group>
+      <div class="card">
+        <div class="left-blog">
+          <div class="blog" v-for="(blog,index) in leftBlogs" :key="index">
+            <l-card
+              type="cover"
+              :l-class="blog.recommend?'rec-card':''"
+              :image="blog.img!=''?'http://tiaocaoer.com'+blog.img:''"
+              :title="blog.title"
+              :plaintext="blog.img==''"
+              @click="toDetail(blog.file_name)"
+            >
+              <view class="content">{{blog.desc}}</view>
+            </l-card>
+          </div>
+        </div>
+        <div class="right-blog">
+          <div class="blog" v-for="(blog,index) in rightBlogs" :key="index">
+            <l-card
+              type="cover"
+              :l-class="blog.recommend?'rec-card':''"
+              :image="blog.img!=''?'http://tiaocaoer.com'+blog.img:''"
+              :title="blog.title"
+              :plaintext="blog.img==''"
+              @click="toDetail(blog.file_name)"
+            >
+              <view class="content">{{blog.desc}}</view>
+            </l-card>
+          </div>
+        </div>
+      </div>
     </div>
     <i-load-more :tip="haveMore?'':'没了没了，别划了'" :loading="loading" />
   </div>
@@ -64,6 +74,8 @@ export default {
   data() {
     return {
       blogs: [],
+      leftBlogs: [],
+      rightBlogs: [],
       page: 1,
       haveMore: true,
       loading: false,
@@ -117,7 +129,20 @@ export default {
           if (rs.data.length === 0) {
             this.haveMore = false
           } else {
-            this.blogs = this.blogs.concat(...rs.data)
+            let left = []
+            let right = []
+            rs.data.map((blog, i) => {
+              if (blog.img.indexOf('xxx.jpg') !== -1) {
+                blog.img = ''
+              }
+              if ((i + 1) % 2 !== 0) {
+                left.push(blog)
+              } else {
+                right.push(blog)
+              }
+            })
+            this.leftBlogs = this.leftBlogs.concat(...left)
+            this.rightBlogs = this.rightBlogs.concat(...right)
           }
         })
     },
@@ -188,13 +213,44 @@ page {
     .title {
       font-size: 16px;
       font-weight: bold;
-      padding: 7px 15px 5px 15px;
+      text-align: center;
+      padding: 7px 15px 15px 15px;
     }
-    .rec {
-      width: 14px;
-      height: 15px;
-      position: relative;
-      top: -12px;
+    .card {
+      display: flex;
+      .left-blog,
+      .right-blog {
+        width: 50%;
+        flex-direction: column;
+        .blog {
+          margin-bottom: 15px;
+          .content {
+            word-break: break-all;
+            font-size: 28rpx;
+            color: #999;
+          }
+          /deep/ .rec-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            &::after {
+              position: absolute;
+              left: -14px;
+              top: -14px;
+              content: '荐';
+              display: inline-block;
+              transform: rotate(-45deg);
+              background: red;
+              width: 60rpx;
+              height: 60rpx;
+              color: #fff;
+              font-size: 12px;
+              line-height: 45px;
+              text-align: center;
+            }
+          }
+        }
+      }
     }
   }
 }
