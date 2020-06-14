@@ -17,7 +17,7 @@
         />
       </i-cell>
     </i-cell-group>
-    <i-load-more :loading="loading" />
+    <i-load-more v-if="loading" :loading="loading" />
   </div>
 </template>
 

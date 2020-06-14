@@ -4,7 +4,7 @@
     <official-account></official-account>
     <i-alert v-if="showVideoTip" type="warning">文章包含外链视频，个人小程序不支持播放。如需观看，请移步Web端查看</i-alert>
     <div class="title">{{title}}</div>
-
+    <i-load-more v-if="loading" :loading="loading" />
     <div class="content">
       <wemark :md="content" link highlight type="wemark"></wemark>
     </div>
@@ -71,6 +71,7 @@ export default {
         },
       ],
       xcxCodeUrl: '',
+      loading: true,
     }
   },
   methods: {
@@ -213,6 +214,7 @@ export default {
         if (this.content.indexOf('iframe') !== -1) {
           this.showVideoTip = true
         }
+        this.loading = false
       })
 
     wx.cloud

@@ -1,5 +1,7 @@
 <template>
   <div class="main">
+    <official-account></official-account>
+    <!-- <l-search-bar placeholder="搜索" :show-cancel="false" /> -->
     <swiper
       class="banner"
       indicator-dots="true"
@@ -30,6 +32,21 @@
       <div class="nav-item" @click="navTo(4)">
         <image class="nav-icon" src="/static/images/p-note.png" mode="aspectFit" />
         <div class="nav-name">产品笔记</div>
+      </div>
+    </div>
+    <div class="experts-box">
+      <div class="section-info">
+        <div class="title">精选文章</div>
+      </div>
+      <div class="experts-list">
+        <div class="item" @click="navTo(5)">
+          <div class="title">博主推荐</div>
+          <div class="extra-info">小程序反编译专题</div>
+        </div>
+        <div class="item" @click="toDetail('2b_product_trap.md')">
+          <div class="title">产品见解</div>
+          <div class="extra-info">2B产品销售驱动陷阱</div>
+        </div>
       </div>
     </div>
     <div class="blogs-box">
@@ -97,6 +114,9 @@ export default {
           break
         case 4:
           url = '/pages/search_blog/main?key=' + encodeURIComponent('产品')
+          break
+        case 5:
+          url = '/pages/search_blog/main?key=' + encodeURIComponent('反编译')
           break
         default:
       }
@@ -208,13 +228,55 @@ page {
     }
   }
 
+  .experts-box {
+    padding: 14px 16px 5px 16px;
+    background: #fff;
+    .section-info {
+      display: flex;
+      justify-content: center;
+      align-content: center;
+      font-size: 14px;
+      align-items: center;
+      .title {
+        font-size: 18px;
+        color: #404040;
+        font-weight: bold;
+      }
+    }
+    .experts-list {
+      margin-top: 20px;
+      display: flex;
+      align-content: flex-start;
+      .item {
+        color: #fff;
+        font-size: 14px;
+        padding: 18px 0 16px 12px;
+        flex: 1;
+        .title {
+          font-size: 16px;
+        }
+        .extra-info {
+          margin-top: 4px;
+        }
+        &:nth-child(1) {
+          background: linear-gradient(315deg, rgba(28, 206, 175, 1) 0%, rgba(0, 141, 152, 1) 100%);
+          margin-right: 15px;
+        }
+        &:nth-child(2) {
+          background: linear-gradient(48deg, rgba(255, 205, 80, 1) 0%, rgba(244, 166, 0, 1) 100%);
+        }
+      }
+    }
+  }
+
   .blogs-box {
     padding: 5px;
     .title {
-      font-size: 16px;
-      font-weight: bold;
+      font-size: 18px;
+      color: #404040;
       text-align: center;
-      padding: 7px 15px 15px 15px;
+      font-weight: bold;
+      padding: 7px 15px 18px 15px;
     }
     .card {
       display: flex;

@@ -2,6 +2,8 @@
   "navigationBarTitleText": "薛定喵君的博客",
   "navigationBarBackgroundColor": "#fff",
   "usingComponents": {
-    "l-card":"/static/lin/card/index"
+    "l-card":"/static/lin/card/index",
+    "l-search-bar": "/static/lin/search-bar/index",
+    "l-icon":"/static/lin/icon/index"
   }
 }
