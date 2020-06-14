@@ -6,20 +6,16 @@
         <text class="userinfo-nickname">{{ userInfo.nickname }}</text>
         <div class="desc">{{ userInfo.desc }}</div>
       </div>
-      <div class="desc">https://github.com/xuedingmiaojun/blog_mp</div>
-      <div class="wx-info">
-        <div class="desc">⬇微信公众号⬇</div>
-        <image class="wxgh" :src="wxghUrl" background-size="cover" />
-      </div>
-      <div class="item" @tap="subscribe">
-        <div class="title-box">
-          <div class="title">
-            <van-icon name="exchange" color="#409bff" class="icon" />
-            {{subscribed?'已订阅':'订阅更新'}}
-          </div>
-        </div>
-      </div>
     </div>
+    <i-cell @click="toDetail" title="关于我" is-link>
+      <i-icon type="mine" size="24" color="#80848f" slot="icon" />
+    </i-cell>
+    <i-cell @click="subscribe" :title="subscribed?'已订阅':'订阅更新'" is-link>
+      <i-icon type="like" size="24" color="#80848f" slot="icon" />
+    </i-cell>
+    <!-- <i-cell title="微信公众号" is-link>
+      <i-icon type="interactive" size="24" color="#80848f" slot="icon" />
+    </i-cell> -->
     <i-toast id="toast" />
   </div>
 </template>
@@ -40,6 +36,15 @@ export default {
     }
   },
   methods: {
+    toDetail() {
+      wx.setStorageSync(
+        'currentUrl',
+        'http://mp.weixin.qq.com/s?__biz=MzI3OTA0NDQ3NQ==&mid=100000261&idx=1&sn=6340b8190b28c062c574a93b35801442&chksm=6b4c8a115c3b030708296e071fe89a3045ba1e88418b3dccd9cf1bfbd36627708225cedb631a#rd',
+      )
+      mpvue.navigateTo({
+        url: '/pages/article_detail/main?title=' + encodeURI('关于我'),
+      })
+    },
     subscribe() {
       let that = this
       if (that.subscribed) {
