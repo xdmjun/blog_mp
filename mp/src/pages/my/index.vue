@@ -49,27 +49,29 @@ export default {
       wx.requestSubscribeMessage({
         tmplIds: tmplIds,
         success(res) {
-          wx.cloud
-            .callFunction({
-              name: 'subscribe',
-              data: {
-                templateId: tmplIds[0],
-              },
-            })
-            .then(() => {
-              that.subscribed = 1
-              $Toast({
-                content: '订阅成功',
-                type: 'success',
+          if (res['BW2SWdM8-9Et4q0gdncZUdQlnZ0Ai4Ikhwdp4rNJ9AY'] !== 'reject') {
+            wx.cloud
+              .callFunction({
+                name: 'subscribe',
+                data: {
+                  templateId: tmplIds[0],
+                },
               })
-            })
-            .catch(() => {
-              that.subscribed = 0
-              $Toast({
-                content: '订阅失败',
-                type: 'error',
+              .then(() => {
+                that.subscribed = 1
+                $Toast({
+                  content: '订阅成功',
+                  type: 'success',
+                })
               })
-            })
+              .catch(() => {
+                that.subscribed = 0
+                $Toast({
+                  content: '订阅失败',
+                  type: 'error',
+                })
+              })
+          }
         },
       })
     },
