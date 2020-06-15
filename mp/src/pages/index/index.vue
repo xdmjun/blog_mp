@@ -41,7 +41,7 @@
       <div class="experts-list">
         <div class="item" @click="navTo(5)">
           <div class="title">博主推荐</div>
-          <div class="extra-info">小程序反编译专题</div>
+          <div class="extra-info">反编译专题</div>
         </div>
         <div class="item" @click="toDetail('2b_product_trap.md')">
           <div class="title">产品见解</div>
