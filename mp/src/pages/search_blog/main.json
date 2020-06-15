@@ -1,4 +1,8 @@
 {
   "navigationBarTitleText": "笔记",
-  "navigationBarBackgroundColor": "#fff"
+  "navigationBarBackgroundColor": "#fff",
+  "usingComponents": {
+    "l-card":"/static/lin/card/index",
+    "l-icon":"/static/lin/icon/index"
+  }
 }

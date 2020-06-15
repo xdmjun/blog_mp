@@ -1,22 +1,17 @@
 <template>
   <div class="main">
-    <i-cell-group>
-      <i-cell
-        v-for="(blog,index) in blogs"
-        :key="index"
+    <div class="blog" v-for="(blog,index) in blogs" :key="index">
+      <l-card
+        type="cover"
+        :l-class="blog.recommend?'rec-card':''"
+        :image="blog.img!=''?'http://xuedingmiao.com'+blog.img:''"
         :title="blog.title"
-        is-link
+        :plaintext="blog.img==''"
         @click="toDetail(blog.file_name)"
       >
-        <image
-          v-if="blog.recommend"
-          class="rec"
-          src="/static/images/recommend.png"
-          mode="aspectFit"
-          slot="icon"
-        />
-      </i-cell>
-    </i-cell-group>
+        <view class="content">{{blog.desc}}</view>
+      </l-card>
+    </div>
     <i-load-more v-if="loading" :loading="loading" />
   </div>
 </template>
@@ -86,10 +81,39 @@ page {
   background: #f7f4f7;
 }
 .main {
+  padding-top: 10px;
   .rec {
     width: 14px;
     height: 15px;
     margin-bottom: -2px;
+  }
+  .blog {
+    margin-bottom: 10px;
+    .content {
+      word-break: break-all;
+      font-size: 28rpx;
+      color: #999;
+    }
+    /deep/ .rec-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      &::after {
+        position: absolute;
+        left: -14px;
+        top: -14px;
+        content: '荐';
+        display: inline-block;
+        transform: rotate(-45deg);
+        background: red;
+        width: 60rpx;
+        height: 60rpx;
+        color: #fff;
+        font-size: 12px;
+        line-height: 45px;
+        text-align: center;
+      }
+    }
   }
 }
 </style>

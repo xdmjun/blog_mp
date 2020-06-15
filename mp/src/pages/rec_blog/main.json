@@ -1,4 +1,7 @@
 {
   "navigationBarTitleText": "推荐博客",
-  "navigationBarBackgroundColor": "#fff"
+  "navigationBarBackgroundColor": "#fff",
+  "usingComponents": {
+    "l-card":"/static/lin/card/index"
+  }
 }
