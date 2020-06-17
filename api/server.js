@@ -266,6 +266,7 @@ router.get('/tcb/notice', async (ctx, next) => {
   })
 
   let token = JSON.parse(tokenRs).data.token
+  title = title.replace(/\"/g, "'")
   let updStr = 'data:{upd:true,blogname:"' + title + '",time:"' + time + '"}'
   const options = {
     method: 'POST',
