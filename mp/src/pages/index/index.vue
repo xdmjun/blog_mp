@@ -1,7 +1,15 @@
 <template>
   <div class="main">
     <official-account></official-account>
-    <!-- <l-search-bar placeholder="搜索" :show-cancel="false" /> -->
+    <div class="search-box">
+      <l-search-bar
+        shape="circle"
+        @linfocus="toSearch"
+        ref="input"
+        placeholder="小程序开发 Saas 教育新零售"
+        :show-cancel="false"
+      />
+    </div>
     <swiper
       class="banner"
       indicator-dots="true"
@@ -166,6 +174,11 @@ export default {
           }
         })
     },
+    toSearch() {
+      mpvue.navigateTo({
+        url: '/pages/search_key/main',
+      })
+    },
   },
   onShareAppMessage() {},
   onLoad() {
@@ -194,6 +207,9 @@ page {
   background: #fff;
 }
 .main {
+  .search-box {
+    margin-bottom: 10px;
+  }
   .banner {
     width: 100%;
     margin-bottom: 5px;

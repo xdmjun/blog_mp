@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "博客搜索",
+  "navigationBarBackgroundColor": "#fff",
+  "usingComponents": {
+    "l-search-bar": "/static/lin/search-bar/index"
+  }
+}
