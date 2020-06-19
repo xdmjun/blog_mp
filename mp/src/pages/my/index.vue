@@ -13,9 +13,14 @@
     <i-cell @click="subscribe" :title="subscribed?'已订阅':'订阅更新'" is-link>
       <i-icon type="like" size="24" color="#80848f" slot="icon" />
     </i-cell>
-    <!-- <i-cell title="微信公众号" is-link>
+    <i-cell title=" " is-link>
+      <i-icon type="group" size="24" color="#80848f" slot="icon" />
+      <button class="my-btn" open-type="contact">前端交流群</button>
+    </i-cell>
+    <i-cell title=" " is-link>
       <i-icon type="interactive" size="24" color="#80848f" slot="icon" />
-    </i-cell> -->
+      <button class="my-btn" open-type="contact">微信公众号</button>
+    </i-cell>
     <i-toast id="toast" />
   </div>
 </template>
@@ -93,6 +98,17 @@ export default {
 <style lang="less" scoped>
 page {
   background: #fff;
+}
+.my-btn {
+  color: inherit;
+  line-height: 24px;
+  font-size: inherit;
+  text-align: inherit;
+  background-color: transparent;
+  padding-left: 0;
+  &::after {
+    display: none;
+  }
 }
 .main {
   padding: 0 10px;
