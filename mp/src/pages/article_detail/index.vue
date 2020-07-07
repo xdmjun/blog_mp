@@ -28,6 +28,13 @@ export default {
       path: encodeURI(path),
     }
   },
+  onShareTimeline() {
+    let path = '/pages/article_detail/main?title=' + this.title
+    return {
+      title: this.title,
+      path: encodeURI(path),
+    }
+  },
   mounted() {
     wx.showShareMenu()
   },

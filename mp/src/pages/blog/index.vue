@@ -235,6 +235,13 @@ export default {
       imageUrl: this.imagePath || '',
     }
   },
+  onShareTimeline() {
+    return {
+      title: this.title,
+      path: '/pages/blog/main?name=' + this.name,
+      imageUrl: this.imagePath || '',
+    }
+  },
   mounted() {
     wx.showShareMenu()
   },

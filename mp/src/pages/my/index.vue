@@ -89,6 +89,7 @@ export default {
   onShow() {},
   onReachBottom() {},
   onShareAppMessage() {},
+  onShareTimeline() {},
   mounted() {
     wx.showShareMenu()
   },

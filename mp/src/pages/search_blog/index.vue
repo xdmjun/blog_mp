@@ -66,6 +66,13 @@ export default {
       imageUrl: 'http://tiaocaoer.com/images/site_icon.png',
     }
   },
+  onShareTimeline() {
+    return {
+      title: '薛定喵君的' + this.key + '笔记',
+      path: '/pages/search_blog/main?key=' + encodeURIComponent(this.key),
+      imageUrl: 'http://tiaocaoer.com/images/site_icon.png',
+    }
+  },
   onReachBottom() {
     // this.page++
     // this.getList()

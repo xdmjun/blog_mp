@@ -55,6 +55,7 @@ export default {
   },
   onReachBottom() {},
   onShareAppMessage() {},
+  onShareTimeline() {},
   mounted() {
     wx.showShareMenu()
   },

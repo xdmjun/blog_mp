@@ -49,6 +49,7 @@ export default {
     wx.showShareMenu()
   },
   onReachBottom() {},
+  onShareTimeline() {},
   onUnload() {},
 }
 </script>

@@ -181,6 +181,7 @@ export default {
     },
   },
   onShareAppMessage() {},
+  onShareTimeline() {},
   onLoad() {
     this.getList()
     wx.cloud
