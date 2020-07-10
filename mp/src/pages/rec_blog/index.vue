@@ -54,7 +54,7 @@ export default {
     this.getList()
   },
   mounted() {
-    wx.showShareMenu()
+    wx.showShareMenu({ menus: ['shareAppMessage', 'shareTimeline'] })
   },
   onShareAppMessage() {
     return {

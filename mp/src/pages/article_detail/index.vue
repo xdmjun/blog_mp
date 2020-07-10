@@ -36,7 +36,7 @@ export default {
     }
   },
   mounted() {
-    wx.showShareMenu()
+    wx.showShareMenu({ menus: ['shareAppMessage', 'shareTimeline'] })
   },
   onUnload() {
     Object.assign(this.$data, this.$options.data())
