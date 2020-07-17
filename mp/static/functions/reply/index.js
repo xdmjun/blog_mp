@@ -11,14 +11,14 @@ exports.main = async (event, context) => {
     let type = parseInt(event.Content)
     let titles = ['', '加入前端交流群', '关注公众号']
     let descs = ['', '一起聊聊web前端、小程序开发、产品', '探讨小程序反编译、玩玩nodejs']
-    let pic = ['', 'fe-qun.png', 'qrcode_for_xdmj.jpg']
+    let picUrl = ['', 'http://xuedingmiao.com:3333', 'http://xuedingmiao.com/images/qrcode_for_xdmj.jpg']
     await cloud.openapi.customerServiceMessage.send({
       touser: wxContext.OPENID,
       msgtype: 'link',
       link: {
         title: '薛定喵君邀你' + titles[type],
         description: descs[type],
-        url: 'http://xuedingmiao.com/images/' + pic[type],
+        url: picUrl[type],
       },
     })
   } else {
