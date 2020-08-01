@@ -4,7 +4,7 @@
       <l-card
         type="primary"
         :l-class="blog.recommend?'rec-card':''"
-        :image="blog.img!=''?'http://xuedingmiao.com'+blog.img:''"
+        :image="blog.img!=''?blog.img:''"
         :title="blog.title"
         :position="index%2==0?'right':'left'"
         :plaintext="blog.img==''"
@@ -44,6 +44,14 @@ export default {
           if (rs.data.length === 0) {
             this.haveMore = false
           } else {
+            rs.data.map((blog, i) => {
+              if (blog.img.indexOf('xxx.jpg') !== -1) {
+                blog.img = ''
+              }
+              if (blog.img !== '' && blog.img.indexOf('http') === -1) {
+                blog.img = 'http://xuedingmiao.com' + blog.img
+              }
+            })
             this.blogs = this.blogs.concat(...rs.data)
           }
         })

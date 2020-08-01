@@ -65,7 +65,7 @@
             <l-card
               type="cover"
               :l-class="blog.recommend?'rec-card':''"
-              :image="blog.img!=''?'http://tiaocaoer.com'+blog.img:''"
+              :image="blog.img!=''?blog.img:''"
               :title="blog.title"
               :plaintext="blog.img==''"
               @click="toDetail(blog.file_name)"
@@ -79,7 +79,7 @@
             <l-card
               type="cover"
               :l-class="blog.recommend?'rec-card':''"
-              :image="blog.img!=''?'http://tiaocaoer.com'+blog.img:''"
+              :image="blog.img!=''?blog.img:''"
               :title="blog.title"
               :plaintext="blog.img==''"
               @click="toDetail(blog.file_name)"
@@ -162,6 +162,9 @@ export default {
             rs.data.map((blog, i) => {
               if (blog.img.indexOf('xxx.jpg') !== -1) {
                 blog.img = ''
+              }
+              if (blog.img !== '' && blog.img.indexOf('http') === -1) {
+                blog.img = 'http://tiaocaoer.com' + blog.img
               }
               if ((i + 1) % 2 !== 0) {
                 left.push(blog)

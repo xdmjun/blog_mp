@@ -513,13 +513,12 @@ async function getContent(blog_name) {
     for (let i = 0; i < arr.length; i++) {
       let src = arr[i].match(srcReg)
       let alt = arr[i].match(altReg)
+      let domain = ''
+      if (src[1].indexOf('http') == -1) {
+        domain = 'http://xuedingmiao.com'
+      }
       let imgMdStr =
-        '![' +
-        (alt != null ? alt : '图片') +
-        '](' +
-        'http://xuedingmiao.com' +
-        src[1] +
-        ')'
+        '![' + (alt != null ? alt : '图片') + '](' + domain + src[1] + ')'
       cnt = cnt.replace(arr[i], 'img' + i).replace('img' + i, imgMdStr)
     }
   }
