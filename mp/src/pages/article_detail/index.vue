@@ -32,6 +32,7 @@ export default {
     let path = '/pages/article_detail/main?title=' + this.title
     return {
       title: this.title,
+      query: 'title=' + this.title,
       path: encodeURI(path),
     }
   },
