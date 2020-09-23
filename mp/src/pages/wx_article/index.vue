@@ -60,8 +60,7 @@ export default {
   },
   onShareTimeline() {
     return {
-      title: '极客之路最近的文章',
-      path: '/pages/wx_article/main',
+      title: '极客之路最近的文章'
     }
   },
   mounted() {

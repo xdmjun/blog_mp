@@ -182,6 +182,10 @@ export default {
         url: '/pages/search_key/main',
       })
     },
+    reset() {
+      this.leftBlogs = []
+      this.rightBlogs = []
+    },
   },
   onShareAppMessage() {},
   onShareTimeline() {},
@@ -194,6 +198,13 @@ export default {
       .then(res => {
         this.bannerList = res.result
       })
+  },
+  onPullDownRefresh() {
+    // 下拉刷新
+    this.page = 1
+    this.reset()
+    this.getList()
+    wx.stopPullDownRefresh()
   },
   onReachBottom() {
     // 下拉加载

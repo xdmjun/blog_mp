@@ -29,6 +29,17 @@
           <div class="desc">关于小程序开发的经验记录</div>
         </div>
       </div>
+      <div class="module flex" @click="navTo(5)">
+        <image
+          class="module-pic"
+          src="http://cdn.xuedingmiao.com/science-lover.jpg"
+          mode="aspectFit"
+        />
+        <div class="info">
+          <div class="title">科技爱好者周刊</div>
+          <div class="desc">每周值得分享的科技内容</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -55,6 +66,18 @@ export default {
           url = '/pages/search_blog/main?key=' + encodeURIComponent('小程序')
           break
         default:
+      }
+      if (id === 5) {
+        wx.navigateToMiniProgram({
+          appId: 'wx5f4026aae509f4ae',
+          path: '',
+          extraData: {},
+          envVersion: 'develop',
+          success(res) {
+            // 打开成功
+          },
+        })
+        return
       }
       mpvue.navigateTo({
         url: url,
