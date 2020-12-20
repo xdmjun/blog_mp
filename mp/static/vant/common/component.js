@@ -1,52 +1,106 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var basic_1 = require("../mixins/basic");
-var index_1 = require("../mixins/observer/index");
+import { basic } from '../mixins/basic';
+const relationFunctions = {
+  ancestor: {
+    linked(parent) {
+      // @ts-ignore
+      this.parent = parent;
+    },
+    unlinked() {
+      // @ts-ignore
+      this.parent = null;
+    },
+  },
+  descendant: {
+    linked(child) {
+      // @ts-ignore
+      this.children = this.children || [];
+      // @ts-ignore
+      this.children.push(child);
+    },
+    unlinked(child) {
+      // @ts-ignore
+      this.children = (this.children || []).filter((it) => it !== child);
+    },
+  },
+};
 function mapKeys(source, target, map) {
-    Object.keys(map).forEach(function (key) {
-        if (source[key]) {
-            target[map[key]] = source[key];
-        }
-    });
+  Object.keys(map).forEach((key) => {
+    if (source[key]) {
+      target[map[key]] = source[key];
+    }
+  });
 }
-function VantComponent(vantOptions) {
-    var _a;
-    if (vantOptions === void 0) { vantOptions = {}; }
-    var options = {};
-    mapKeys(vantOptions, options, {
-        data: 'data',
-        props: 'properties',
-        mixins: 'behaviors',
-        methods: 'methods',
-        beforeCreate: 'created',
-        created: 'attached',
-        mounted: 'ready',
-        relations: 'relations',
-        destroyed: 'detached',
-        classes: 'externalClasses'
-    });
-    var relation = vantOptions.relation;
-    if (relation) {
-        options.relations = Object.assign(options.relations || {}, (_a = {},
-            _a["../" + relation.name + "/index"] = relation,
-            _a));
-    }
-    // add default externalClasses
-    options.externalClasses = options.externalClasses || [];
-    options.externalClasses.push('custom-class');
-    // add default behaviors
-    options.behaviors = options.behaviors || [];
-    options.behaviors.push(basic_1.basic);
-    // map field to form-field behavior
-    if (vantOptions.field) {
-        options.behaviors.push('wx://form-field');
-    }
-    // add default options
-    options.options = {
-        multipleSlots: true,
-        addGlobalClass: true
+function makeRelation(options, vantOptions, relation) {
+  const { type, name, linked, unlinked, linkChanged } = relation;
+  const { beforeCreate, destroyed } = vantOptions;
+  if (type === 'descendant') {
+    options.created = function () {
+      beforeCreate && beforeCreate.bind(this)();
+      this.children = this.children || [];
     };
-    index_1.observe(vantOptions, options);
-    Component(options);
+    options.detached = function () {
+      this.children = [];
+      destroyed && destroyed.bind(this)();
+    };
+  }
+  options.relations = Object.assign(options.relations || {}, {
+    [`../${name}/index`]: {
+      type,
+      linked(node) {
+        relationFunctions[type].linked.bind(this)(node);
+        linked && linked.bind(this)(node);
+      },
+      linkChanged(node) {
+        linkChanged && linkChanged.bind(this)(node);
+      },
+      unlinked(node) {
+        relationFunctions[type].unlinked.bind(this)(node);
+        unlinked && unlinked.bind(this)(node);
+      },
+    },
+  });
 }
-exports.VantComponent = VantComponent;
+function VantComponent(vantOptions = {}) {
+  const options = {};
+  mapKeys(vantOptions, options, {
+    data: 'data',
+    props: 'properties',
+    mixins: 'behaviors',
+    methods: 'methods',
+    beforeCreate: 'created',
+    created: 'attached',
+    mounted: 'ready',
+    relations: 'relations',
+    destroyed: 'detached',
+    classes: 'externalClasses',
+  });
+  const { relation } = vantOptions;
+  if (relation) {
+    makeRelation(options, vantOptions, relation);
+  }
+  // add default externalClasses
+  options.externalClasses = options.externalClasses || [];
+  options.externalClasses.push('custom-class');
+  // add default behaviors
+  options.behaviors = options.behaviors || [];
+  options.behaviors.push(basic);
+  // map field to form-field behavior
+  if (vantOptions.field) {
+    options.behaviors.push('wx://form-field');
+  }
+  if (options.properties) {
+    Object.keys(options.properties).forEach((name) => {
+      if (Array.isArray(options.properties[name])) {
+        // miniprogram do not allow multi type
+        options.properties[name] = null;
+      }
+    });
+  }
+  // add default options
+  options.options = {
+    multipleSlots: true,
+    addGlobalClass: true,
+  };
+  Component(options);
+}
+export { VantComponent };

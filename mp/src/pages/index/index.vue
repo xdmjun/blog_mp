@@ -47,7 +47,7 @@
         <div class="title">精选文章</div>
       </div>
       <div class="experts-list">
-        <div class="item" @click="navTo(5)">
+        <div class="item" @click="jumpMp">
           <div class="title">博主推荐</div>
           <div class="extra-info">反编译专题</div>
         </div>
@@ -130,6 +130,17 @@ export default {
       }
       mpvue.navigateTo({
         url: url,
+      })
+    },
+    jumpMp() {
+      wx.navigateToMiniProgram({
+        appId: 'wx49b8e8fc9852353e',
+        path: '',
+        extraData: {},
+        envVersion: 'develop',
+        success(res) {
+          // 打开成功
+        },
       })
     },
     jump(name) {

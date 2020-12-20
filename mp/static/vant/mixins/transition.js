@@ -1,12 +1,13 @@
-import { isObj } from '../common/utils';
+// @ts-nocheck
+import { requestAnimationFrame } from '../common/utils';
+import { isObj } from '../common/validator';
 const getClassNames = (name) => ({
   enter: `van-${name}-enter van-${name}-enter-active enter-class enter-active-class`,
   'enter-to': `van-${name}-enter-to van-${name}-enter-active enter-to-class enter-active-class`,
   leave: `van-${name}-leave van-${name}-leave-active leave-class leave-active-class`,
   'leave-to': `van-${name}-leave-to van-${name}-leave-active leave-to-class leave-active-class`,
 });
-const nextTick = () => new Promise((resolve) => setTimeout(resolve, 1000 / 30));
-export const transition = function (showDefaultValue) {
+export function transition(showDefaultValue) {
   return Behavior({
     properties: {
       customStyle: String,
@@ -45,27 +46,21 @@ export const transition = function (showDefaultValue) {
         const currentDuration = isObj(duration) ? duration.enter : duration;
         this.status = 'enter';
         this.$emit('before-enter');
-        Promise.resolve()
-          .then(nextTick)
-          .then(() => {
-            this.checkStatus('enter');
-            this.$emit('enter');
-            this.setData({
-              inited: true,
-              display: true,
-              classes: classNames.enter,
-              currentDuration,
-            });
-          })
-          .then(nextTick)
-          .then(() => {
+        requestAnimationFrame(() => {
+          this.checkStatus('enter');
+          this.$emit('enter');
+          this.setData({
+            inited: true,
+            display: true,
+            classes: classNames.enter,
+            currentDuration,
+          });
+          requestAnimationFrame(() => {
             this.checkStatus('enter');
             this.transitionEnded = false;
-            this.setData({
-              classes: classNames['enter-to'],
-            });
-          })
-          .catch(() => {});
+            this.setData({ classes: classNames['enter-to'] });
+          });
+        });
       },
       leave() {
         if (!this.data.display) {
@@ -76,26 +71,20 @@ export const transition = function (showDefaultValue) {
         const currentDuration = isObj(duration) ? duration.leave : duration;
         this.status = 'leave';
         this.$emit('before-leave');
-        Promise.resolve()
-          .then(nextTick)
-          .then(() => {
-            this.checkStatus('leave');
-            this.$emit('leave');
-            this.setData({
-              classes: classNames.leave,
-              currentDuration,
-            });
-          })
-          .then(nextTick)
-          .then(() => {
+        requestAnimationFrame(() => {
+          this.checkStatus('leave');
+          this.$emit('leave');
+          this.setData({
+            classes: classNames.leave,
+            currentDuration,
+          });
+          requestAnimationFrame(() => {
             this.checkStatus('leave');
             this.transitionEnded = false;
             setTimeout(() => this.onTransitionEnd(), currentDuration);
-            this.setData({
-              classes: classNames['leave-to'],
-            });
-          })
-          .catch(() => {});
+            this.setData({ classes: classNames['leave-to'] });
+          });
+        });
       },
       checkStatus(status) {
         if (status !== this.status) {
@@ -115,4 +104,4 @@ export const transition = function (showDefaultValue) {
       },
     },
   });
-};
+}
