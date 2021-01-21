@@ -9,7 +9,8 @@
     "pages/article_detail/main",
     "pages/rec_blog/main",
     "pages/search_blog/main",
-    "pages/search_key/main"
+    "pages/search_key/main",
+    "pages/scan_login/main"
   ],
   "window": {
     "backgroundTextStyle": "dark",
