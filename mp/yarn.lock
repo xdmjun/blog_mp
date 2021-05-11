@@ -2996,8 +2996,8 @@ hoopy@^0.1.4:
   resolved "https://registry.yarnpkg.com/hoopy/-/hoopy-0.1.4.tgz#609207d661100033a9a9402ad3dea677381c1b1d"
 
 hosted-git-info@^2.1.4:
-  version "2.8.5"
-  resolved "https://registry.npm.taobao.org/hosted-git-info/download/hosted-git-info-2.8.5.tgz?cache=0&sync_timestamp=1570493570687&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fhosted-git-info%2Fdownload%2Fhosted-git-info-2.8.5.tgz#759cfcf2c4d156ade59b0b2dfabddc42a6b9c70c"
+  version "2.8.9"
+  resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.8.9.tgz#dffc0bf9a21c02209090f2aa69429e1414daf3f9"
 
 hsl-regex@^1.0.0:
   version "1.0.0"
@@ -3859,9 +3859,9 @@ mpvue-calendar@^2.3.0:
   version "2.3.1"
   resolved "https://registry.npm.taobao.org/mpvue-calendar/download/mpvue-calendar-2.3.1.tgz#a4bd58ab80b7a7e0204916d1ea97db09a73fcec6"
 
-mpvue-loader@^2.0.0:
+mpvue-loader@^2.0.1:
   version "2.0.1"
-  resolved "https://registry.npm.taobao.org/mpvue-loader/download/mpvue-loader-2.0.1.tgz#6220e70ef1fecb9d29d5e44f46e107b9081be8e3"
+  resolved "https://registry.yarnpkg.com/mpvue-loader/-/mpvue-loader-2.0.1.tgz#6220e70ef1fecb9d29d5e44f46e107b9081be8e3"
   dependencies:
     babelon "^1.0.5"
     consolidate "^0.14.0"
