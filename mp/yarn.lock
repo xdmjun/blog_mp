@@ -297,7 +297,7 @@ async-each@^1.0.1:
 
 async-limiter@~1.0.0:
   version "1.0.1"
-  resolved "https://registry.npm.taobao.org/async-limiter/download/async-limiter-1.0.1.tgz?cache=0&sync_timestamp=1574272018408&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fasync-limiter%2Fdownload%2Fasync-limiter-1.0.1.tgz#dd379e94f0db8310b08291f9d64c3209766617fd"
+  resolved "https://registry.yarnpkg.com/async-limiter/-/async-limiter-1.0.1.tgz#dd379e94f0db8310b08291f9d64c3209766617fd"
 
 async@^2.1.2, async@^2.4.1, async@^2.6.2:
   version "2.6.3"
@@ -3859,9 +3859,9 @@ mpvue-calendar@^2.3.0:
   version "2.3.1"
   resolved "https://registry.npm.taobao.org/mpvue-calendar/download/mpvue-calendar-2.3.1.tgz#a4bd58ab80b7a7e0204916d1ea97db09a73fcec6"
 
-mpvue-loader@^2.0.0:
+mpvue-loader@^2.0.1:
   version "2.0.1"
-  resolved "https://registry.npm.taobao.org/mpvue-loader/download/mpvue-loader-2.0.1.tgz#6220e70ef1fecb9d29d5e44f46e107b9081be8e3"
+  resolved "https://registry.yarnpkg.com/mpvue-loader/-/mpvue-loader-2.0.1.tgz#6220e70ef1fecb9d29d5e44f46e107b9081be8e3"
   dependencies:
     babelon "^1.0.5"
     consolidate "^0.14.0"
@@ -6389,8 +6389,8 @@ write@^0.2.1:
     mkdirp "^0.5.1"
 
 ws@^6.0.0:
-  version "6.2.1"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-6.2.1.tgz#442fdf0a47ed64f59b6a5d8ff130f4748ed524fb"
+  version "6.2.2"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-6.2.2.tgz#dd5cdbd57a9979916097652d78f1cc5faea0c32e"
   dependencies:
     async-limiter "~1.0.0"
 
