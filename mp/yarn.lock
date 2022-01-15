@@ -3859,9 +3859,9 @@ mpvue-calendar@^2.3.0:
   version "2.3.1"
   resolved "https://registry.npm.taobao.org/mpvue-calendar/download/mpvue-calendar-2.3.1.tgz#a4bd58ab80b7a7e0204916d1ea97db09a73fcec6"
 
-mpvue-loader@^2.0.0:
+mpvue-loader@^2.0.1:
   version "2.0.1"
-  resolved "https://registry.npm.taobao.org/mpvue-loader/download/mpvue-loader-2.0.1.tgz#6220e70ef1fecb9d29d5e44f46e107b9081be8e3"
+  resolved "https://registry.yarnpkg.com/mpvue-loader/-/mpvue-loader-2.0.1.tgz#6220e70ef1fecb9d29d5e44f46e107b9081be8e3"
   dependencies:
     babelon "^1.0.5"
     consolidate "^0.14.0"
@@ -5521,9 +5521,9 @@ shebang-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npm.taobao.org/shebang-regex/download/shebang-regex-1.0.0.tgz#da42f49740c0b42db2ca9728571cb190c98efea3"
 
-shelljs@^0.8.1:
-  version "0.8.3"
-  resolved "https://registry.npm.taobao.org/shelljs/download/shelljs-0.8.3.tgz#a7f3319520ebf09ee81275b2368adb286659b097"
+shelljs@^0.8.5:
+  version "0.8.5"
+  resolved "https://registry.yarnpkg.com/shelljs/-/shelljs-0.8.5.tgz#de055408d8361bed66c669d2f000538ced8ee20c"
   dependencies:
     glob "^7.0.0"
     interpret "^1.0.0"
